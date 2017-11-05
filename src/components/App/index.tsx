@@ -9,6 +9,8 @@ import { RootState, actions } from '../../core';
 // Import the stylesheet for this component
 import './index.less';
 
+import NavBar from '../NavBar';
+
 // Define the property types
 interface AppProps {
   authenticated: boolean;
@@ -28,15 +30,13 @@ class App extends Component<AppProps, AppState> {
     More info at:
     https://facebook.github.io/jsx/
     */
-    let intro = <h1>Hello, World!</h1>;
     return (
       <div className="app">
-        {intro}
-        {this.props.authenticated ? 'Logged in' : 'Logged out'}
         <div>
           <button onClick={() => this.props.login("kirkbrauer", "password")}>Login</button>
           <button onClick={this.props.logout}>Logout</button>
         </div>
+        {this.props.authenticated ? <NavBar></NavBar> : null}
       </div>
     );
   }
