@@ -1,0 +1,33 @@
+@import "../../vars.less";
+
+.navbar {
+  .navbar-top {
+    background-color: @first-red;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    height: @navbar-size-mobile;
+    border-bottom: 5px solid @first-dark-red;
+  }
+  
+  .navbar-top-logo {
+    height: 80%;
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 10%;
+  }
+  
+  .navbar-bottom {
+    background-color: @first-blue;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    height: @navbar-size-mobile;
+    border-top: 5px solid @first-dark-blue;
+  }
+}

@@ -27,7 +27,9 @@ export function Root({ store, history }) {
         {/* ConnectedRouter will use the store from Provider automatically */}
         <ConnectedRouter history={history}>
           {/* Be careful here, the ConnectedRouter can only take one element */}
-          <Route exact path='/' component={App} />
+          <Route exact path='/' component={App}>
+            {/* <Route path='/scores' component={Scores} />*/}
+          </Route>  
         </ConnectedRouter>
       </LoadingScreen>
     </Provider>
