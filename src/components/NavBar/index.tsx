@@ -16,7 +16,7 @@ interface NavBarProps {}
 interface NavBarState {}
 
 class NavBar extends Component<NavBarProps, NavBarState> {
-  // The render function will render the component
+  
   public render() {
     return (
       <div className="navbar">
