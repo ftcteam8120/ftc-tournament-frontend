@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, Switch } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import { history } from '../core/store';
 import { Provider } from 'react-redux';
@@ -9,6 +9,7 @@ export * from './App';
 
 // Import all of the components
 import App from './App';
+import Login from './Login';
 
 // Import the loading LoadingScreen
 import LoadingScreen from './LoadingScreen';
@@ -26,10 +27,15 @@ export function Root({ store, history }) {
       <LoadingScreen>
         {/* ConnectedRouter will use the store from Provider automatically */}
         <ConnectedRouter history={history}>
-          {/* Be careful here, the ConnectedRouter can only take one element */}
-          <Route exact path='/' component={App}>
-            {/* <Route path='/scores' component={Scores} />*/}
-          </Route>  
+          {/* The switch workjs just like a switch in javascript */}  
+          <Switch>
+            {/* We keep this outside the App component because unauthed users should be here */}  
+            <Route exact path="/login" component={Login} />  
+            {/* All app paths that require authentication go inside the app component */}
+            <App>
+              {/* <Route path='/scores' component={Scores} />*/}
+            </App>  
+          </Switch>
         </ConnectedRouter>
       </LoadingScreen>
     </Provider>
