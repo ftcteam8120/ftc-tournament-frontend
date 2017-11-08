@@ -6,12 +6,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Action } from 'redux';
 // Import the root state types and actions from the core folder
 import { RootState, actions } from '../../core';
+import MediaQuery from 'react-responsive';
 
 // Import the stylesheet for this component
 import './index.less';
 
 // Import other components
 import NavBar from '../NavBar';
+import TitleBar from '../TitleBar';
 
 // Define the property types
 interface AppProps {
@@ -30,8 +32,11 @@ class App extends Component<AppProps, AppState> {
       // If they are, proceed like normal
       return (
         <div className="app">
-          <NavBar />
+          <TitleBar/>
           {this.props.children}
+          <MediaQuery query="(max-width: 800px)">
+            <NavBar />
+          </MediaQuery>
         </div>
       );
     } else {

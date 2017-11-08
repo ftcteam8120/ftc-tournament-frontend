@@ -1,0 +1,55 @@
+@import "../../index.less";
+
+.titlebar {
+  background-color: @first-blue;
+  opacity: 0.95;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  height: @titlebar-size-mobile;
+  border-bottom: 1px solid @first-dark-blue;
+  .titlebar-container {
+    display: flex;
+    padding-left: 16px;
+    padding-right: 16px;
+    color: white;
+    .info {
+      h5 {
+        margin: 0;
+        margin-top: 4px;
+      }
+      a {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      .tournament-title {
+        display: flex;
+        h2 {
+          margin: 0;
+          margin-top: 16px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .nav-button {
+          margin-top: 10px;
+          margin-left: 0;
+          padding-left: 0;
+          margin-right: 0;
+          padding-right: 0;
+          .icon {
+            margin-left: 0;
+            margin-right: 0;
+          }
+        }
+      }
+    }
+    .navigation {
+      margin-left: auto;
+      margin-top: 16px;
+      max-width: 350px;
+    }
+  }
+}

@@ -9,6 +9,8 @@ import { RootState, actions } from '../../core';
 // Import the stylesheet for this component
 import './index.less';
 
+import Navigation from '../Navigation';
+
 // Define the property types
 interface NavBarProps {}
 
@@ -20,10 +22,8 @@ class NavBar extends Component<NavBarProps, NavBarState> {
   public render() {
     return (
       <div className="navbar">
-        <div className="navbar-top">
-          <img className="navbar-top-logo" src="/img/FIRST_logo.svg" />
-        </div>
-        <div className="navbar-bottom">
+        <div className="navigation-wrapper">
+          <Navigation hideLabels={true}/>
         </div>
       </div>
     );
