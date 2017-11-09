@@ -8,7 +8,7 @@
     "server": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --history-api-fallback --inline --progress --hot",
     "start": "npm run server",
     "container-build": "docker build -t ftc-tournament-frontend .",
-    "container": "docker run -p 8080:80 ftc-tournament-frontend",
+    "container": "docker run -p 3030:80 ftc-tournament-frontend",
     "fix-format": "./node_modules/.bin/gts fix"
   },
   "author": "FTC Team 8120",

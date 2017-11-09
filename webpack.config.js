@@ -79,7 +79,7 @@ module.exports = function makeWebpackConfig() {
       NODE_ENV: JSON.stringify(isProd ? 'production' : 'development'),
       PROD: JSON.stringify('production'),
       DEV: JSON.stringify('development'),
-      API_URL: JSON.stringify('http://localhost:8080'),
+      API_URL: JSON.stringify(process.env.API_URL),
       API_VERSION: JSON.stringify('v1'),
       'process.env.NODE_ENV': JSON.stringify(isProd ? 'production' : 'development')      
     })
