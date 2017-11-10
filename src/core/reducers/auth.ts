@@ -12,13 +12,15 @@ export interface AuthState {
   loading: boolean;
   user: any;
   token: string;
+  authError: string;
 }
 // Define the initial state for the reducer if no state is provided
 export const initialState: AuthState = {
   authenticated: false,
   loading: true,
   user: null,
-  token: null
+  token: null,
+  authError: null
 };
 
 // Export the reducer function
@@ -46,7 +48,8 @@ export function auth(state: AuthState = initialState, action: any): AuthState {
         loading: false,
         authenticated: false,
         user: null,
-        token: null
+        token: null,
+        authError: action.code
       };
     default:
       // Return the state if no action is not defined

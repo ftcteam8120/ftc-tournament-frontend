@@ -3,6 +3,7 @@ import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators, Action } from 'redux';
 import { RootState, actions } from '../../core';
+import { AuthError } from '../../core/actions/auth';
 
 import './index.less';
 
@@ -10,6 +11,7 @@ import { Input, Button } from '../form';
 
 interface LoginProps {
   authenticated: boolean;
+  authError: AuthError;
   login: (username: string, password: string) => Action;
   logout: () => Action;
 }
@@ -29,6 +31,15 @@ class Login extends Component<LoginProps, LoginState> {
       username: '',
       password: ''
     };
+  }
+
+  private getAuthError(code: AuthError): string {
+    switch (code) {
+      case AuthError.INCORRECT_PASSWORD:
+        return 'Incorrect password';
+      case AuthError.NOT_FOUND:
+        return 'User not found'
+    }
   }
 
   // Generate a random background image
@@ -66,7 +77,11 @@ class Login extends Component<LoginProps, LoginState> {
             <div className="login-form">
               <div className="login-section">
                 <div className="login-section-title">
-                  <h5>Username & Password </h5>
+                  <h5>{
+                    this.props.authError ?
+                      <div className="authError">{this.getAuthError(this.props.authError)}</div> :
+                      'Username & Password'
+                  }</h5>
                 </div>
                 <Input
                   value={this.state.username}
@@ -115,7 +130,8 @@ class Login extends Component<LoginProps, LoginState> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  authenticated: state.auth.authenticated
+  authenticated: state.auth.authenticated,
+  authError: state.auth.authError
 });
 
 const mapDispatchToProps = (dispatch) => {

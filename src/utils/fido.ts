@@ -53,8 +53,13 @@ export default function fido(input: RequestInfo, init?: RequestInit, extractData
     }
   }
   return fetch(input, init).then((response) => {
-    if (!response.ok) throw Error(response.statusText);
-    return response;
+    if (!response.ok) {
+      return response.json().then((json) => {
+        return Promise.reject(json.error);
+      });
+    } else {
+      return Promise.resolve(response);
+    }
   }).then((response) => {
     return response.json();
   }).then((json) => {

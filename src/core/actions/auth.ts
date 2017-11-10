@@ -10,6 +10,11 @@ export const AUTH_FAIL = 'AUTH_FAIL';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
+export enum AuthError {
+  INCORRECT_PASSWORD = 'INCORRECT_PASSWORD',
+  NOT_FOUND = 'NOT_FOUND'
+}
+
 // Trigger this action on auth success
 export function authSuccess(user: any, token: string): any {
   return {
@@ -20,9 +25,10 @@ export function authSuccess(user: any, token: string): any {
 }
 
 // Trigger this action on auth failure
-export function authFail(): Action {
+export function authFail(code: AuthError): Action & { code: AuthError } {
   return {
-    type: AUTH_FAIL
+    type: AUTH_FAIL,
+    code
   };
 }
 
@@ -52,7 +58,7 @@ export function auth(): any {
         dispatch(noAuth());
       }
     }).catch((err) => {
-      dispatch(authFail());
+      dispatch(authFail(err));
     });
   }
 }
@@ -75,7 +81,7 @@ export function login(username: string, password: string): any {
       // Dispatch a success action
       dispatch(authSuccess(raw.data, raw.token));
     }).catch((err) => {
-      dispatch(authFail());
+      dispatch(authFail(err));
     });
   }
 }
