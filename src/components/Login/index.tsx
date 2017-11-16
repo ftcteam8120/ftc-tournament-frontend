@@ -74,7 +74,7 @@ class Login extends Component<LoginProps, LoginState> {
                 <h3>FTC Tournament Login</h3>
               </div>
             </div>
-            <div className="login-form">
+            <form className="login-form" onSubmit={() => { this.props.login(this.state.username, this.state.password) }}>  
               <div className="login-section">
                 <div className="login-section-title">
                   <h5>{
@@ -120,7 +120,7 @@ class Login extends Component<LoginProps, LoginState> {
                   className="login-form-element"
                 />
               </div>
-            </div>
+            </form>
           </div>
         </div>
       );

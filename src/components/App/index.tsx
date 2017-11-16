@@ -14,6 +14,7 @@ import './index.less';
 // Import other components
 import NavBar from '../NavBar';
 import TitleBar from '../TitleBar';
+import Score from '../Score';
 
 // Define the property types
 interface AppProps {
@@ -32,7 +33,8 @@ class App extends Component<AppProps, AppState> {
       // If they are, proceed like normal
       return (
         <div className="app">
-          <TitleBar/>
+          <TitleBar />
+          <Score scoreData={{}}/>
           {this.props.children}
           <MediaQuery query="(max-width: 800px)">
             <NavBar />
