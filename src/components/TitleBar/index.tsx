@@ -23,6 +23,10 @@ interface TitleBarProps {
 interface TitleBarState {}
 
 class TitleBar extends Component<TitleBarProps, TitleBarState> {
+
+  private getCurrentPageName() {
+
+  }
   
   public render() {
     return (
@@ -42,7 +46,7 @@ class TitleBar extends Component<TitleBarProps, TitleBarState> {
               />
               {/*<h2 className="general-title">Kirtland FTC Scrimmage</h2>*/}
               <div className="open-section-title">
-                <h3>Matches</h3>
+                <h3>Info</h3>
                 <h5>Kirtland FTC Scrimmage</h5>
               </div>
             </div>

@@ -11,38 +11,35 @@ import MediaQuery from 'react-responsive';
 // Import the stylesheet for this component
 import './index.less';
 
+// Import other components
+import NavBar from '../NavBar';
+import TitleBar from '../TitleBar';
+
 // Define the property types
-interface AppProps {
-  authenticated: boolean;
-}
+interface TournamentProps {}
 
 // Define the state types
-interface AppState {}
+interface TournamentState {}
 
-class App extends Component<AppProps, AppState> {
+class Tournament extends Component<TournamentProps, TournamentState> {
 
   // The render function will render the component
   public render() {
-    // Check if the user is authenticated
-    if (this.props.authenticated) {
-      // If they are, proceed like normal
       return (
-        <div className="app">
+        <div className="tournament">
+          <TitleBar />
           {this.props.children}
+          <MediaQuery query="(max-width: 800px)">
+            <NavBar />
+          </MediaQuery>
         </div>
       );
-    } else {
-      // Otherwise, return a redirect component to redirect to login
-      return <Redirect to="/login" />;
-    }
   }
 
 }
 
 // Function to map the state of the object to the component props
-const mapStateToProps = (state: RootState) => ({
-  authenticated: state.auth.authenticated
-});
+const mapStateToProps = (state: RootState) => ({});
 
 // Function to map the dispatch functions to the component props
 const mapDispatchToProps = (dispatch) => {
@@ -53,4 +50,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(Tournament);
