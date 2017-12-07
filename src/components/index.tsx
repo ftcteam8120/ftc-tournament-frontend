@@ -11,6 +11,7 @@ export * from './App';
 import App from './App';
 import LoadingScreen from './LoadingScreen';
 import Login from './Login';
+import HomePage from './HomePage';
 
 import Tournament from './Tournament';
 
@@ -33,6 +34,7 @@ export function Root({ store, history }) {
             <Route exact path="/login" component={Login} />  
             {/* All app paths that require authentication go inside the app component */}
             <App>
+              <Route exact path="/" component={HomePage}/>
               <Route path="/event/:id" component={Tournament}>
                 {/*<Route path="/" component={Info} />*/}
               </Route>  
