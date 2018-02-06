@@ -9,7 +9,8 @@
     "start": "npm run server",
     "container-build": "docker build -t ftc-tournament-frontend .",
     "container": "docker run -p 3030:80 ftc-tournament-frontend",
-    "fix-format": "./node_modules/.bin/gts fix"
+    "fix-format": "./node_modules/.bin/gts fix",
+    "prepare": "patch-package"
   },
   "author": "FTC Team 8120",
   "license": "MIT",
@@ -37,6 +38,8 @@
     "less": "^3.0.0-alpha.3",
     "less-loader": "^4.0.5",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
+    "patch-package": "^5.0.0",
+    "postinstall-prepare": "^1.0.1",
     "raw-loader": "^0.5.1",
     "react-hot-loader": "^3.1.1",
     "resolve-url-loader": "^2.1.1",
@@ -44,20 +47,30 @@
     "source-map-loader": "^0.2.2",
     "style-loader": "^0.19.0",
     "ts-loader": "^3.0.3",
-    "typescript": "^2.5.3",
+    "typescript": "^2.6.2",
     "webpack": "^3.7.1",
     "webpack-dev-server": "^2.9.2",
     "whatwg-fetch": "^2.0.3"
   },
   "dependencies": {
+    "apollo-cache-inmemory": "^1.1.5",
+    "apollo-cache-redux": "^0.1.0-alpha.7",
+    "apollo-client": "^2.2.0",
+    "apollo-link-http": "^1.3.2",
+    "apollo-link-ws": "^1.0.4",
+    "graphql": "^0.11.0",
+    "graphql-anywhere": "^4.1.1",
+    "graphql-tag": "^2.6.1",
     "history": "^4.7.2",
     "react": "^16.0.0",
+    "react-apollo": "^2.0.4",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "react-responsive": "^3.0.0",
     "react-router": "^4.2.0",
     "react-router-redux": "^5.0.0-alpha.8",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "subscriptions-transport-ws": "^0.9.5"
   }
 }

@@ -25,8 +25,8 @@ class Login extends Component<LoginProps, LoginState> {
 
   private backgroundImage: string;
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       username: '',
       password: ''

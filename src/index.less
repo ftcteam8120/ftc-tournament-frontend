@@ -9,9 +9,15 @@ This is the base less file, it contains all global
 classes that do not relate to a specific component
 http://lesscss.org/
 */
+@shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+
 .page-style() {
   min-height: 100vh;
   width: 100vw;
+}
+
+.titlebar-page-style() {
+  margin-top: @titlebar-size-mobile + 8px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -20,4 +26,8 @@ h1, h2, h3, h4, h5, h6 {
 
 p {
   font-family: @open-sans;
+}
+
+body {
+  background-color: #F5F5F5;
 }

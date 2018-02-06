@@ -38,7 +38,6 @@ export default class Navigation extends Component<NavigationProps, NavigationSta
       { icon: 'home', label: 'Tournament', link: '/' },
       { icon: 'matches', label: 'Matches', link: '/matches' },
       { icon: 'rankings', label: 'Rankings', link: '/rankings' },
-      { icon: 'scores', label: 'Scores', link: '/scores' },
       { icon: 'teams', label: 'Teams', link: '/teams' }
     ];
     return (

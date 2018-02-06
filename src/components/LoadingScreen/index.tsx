@@ -24,7 +24,7 @@ class LoadingScreen extends Component<LoadingScreenProps, LoadingScreenState> {
     // Only show the router if the auth has loaded
     let children;
     if (!this.props.loading) {
-      return <div>{this.props.children}</div>;
+      return this.props.children;
     } else {
       return (
         <div className="loading-screen">

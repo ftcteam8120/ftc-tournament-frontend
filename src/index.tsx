@@ -11,8 +11,10 @@ import { AppContainer } from 'react-hot-loader';
 import { Root } from './components';
 // Import the store and the history
 import { configureStore, history } from './core/store';
+import { configureClient } from './client';
 // Configure the store
 export const store = configureStore();
+export const client = configureClient(store);
 
 import { auth, login } from './core/actions/auth';
 
@@ -25,7 +27,7 @@ if (NODE_ENV === DEV) {
     ReactDOM.render(
       // The provider element provides the store to all components
       <AppContainer>
-        <RootComponent history={history} store={store} />
+        <RootComponent history={history} client={client} store={store} />
       </AppContainer>,
       rootEl
     );
@@ -45,7 +47,7 @@ if (NODE_ENV === DEV) {
 } else {
   // Production render
   ReactDOM.render(
-    <Root history={history} store={store} />,
+    <Root history={history} client={client} store={store} />,
     rootEl
   );
 }

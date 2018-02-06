@@ -10,6 +10,7 @@
   z-index: 100;
   height: @titlebar-size-mobile;
   border-bottom: 1px solid @first-dark-blue;
+  box-shadow: @shadow;
   .titlebar-container {
     display: flex;
     padding-left: 16px;
@@ -24,35 +25,6 @@
         cursor: pointer;
         text-decoration: underline;
       }
-      .tournament-title {
-        display: flex;
-        .general-title {
-          margin: 0;
-          margin-top: 16px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .open-section-title {
-          margin-top: 8px;
-          h3, h5 {
-            margin: 0;
-          }
-        }
-        .nav-button {
-          margin-top: 10px;
-          margin-left: 0;
-          padding-left: 0;
-          .icon {
-            margin-left: 0;
-          }
-        }
-      }
-    }
-    .navigation {
-      margin-left: auto;
-      margin-top: 16px;
-      max-width: 350px;
     }
   }
 }

@@ -7,16 +7,25 @@ import { bindActionCreators, Action } from 'redux';
 // Import the root state types and actions from the core folder
 import { RootState, actions } from '../../core';
 import MediaQuery from 'react-responsive';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 // Import the stylesheet for this component
 import './index.less';
 
 // Import other components
 import NavBar from '../NavBar';
-import TitleBar from '../TitleBar';
+import TournamentTitleBar from '../TournamentTitleBar';
 
 // Define the property types
-interface TournamentProps {}
+interface TournamentProps {
+  match: {
+    params: {
+      id: string;
+    }
+  }
+  data: any;
+}
 
 // Define the state types
 interface TournamentState {}
@@ -25,29 +34,30 @@ class Tournament extends Component<TournamentProps, TournamentState> {
 
   // The render function will render the component
   public render() {
-      return (
-        <div className="tournament">
-          <TitleBar />
-          {this.props.children}
-          <MediaQuery query="(max-width: 800px)">
-            <NavBar />
-          </MediaQuery>
-        </div>
-      );
+    const { errors, loading, event } = this.props.data;
+    return (
+      <div className="tournament">
+        <TournamentTitleBar event={event} loading={loading} />
+        {this.props.children}
+        <MediaQuery query="(max-width: 800px)">
+          <NavBar />
+        </MediaQuery>
+      </div>
+    );
   }
 
 }
 
-// Function to map the state of the object to the component props
-const mapStateToProps = (state: RootState) => ({});
-
-// Function to map the dispatch functions to the component props
-const mapDispatchToProps = (dispatch) => {
-  return {};  
-};
-
-// Export the final connected class
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Tournament);
+export default graphql<any, any>(gql`
+  query EventQuery($id: String!) {
+    event(id: $id) {
+      id
+      name
+      shortid
+    }
+  }
+`, {
+  options: (props: TournamentProps) => ({
+    variables: { id: props.match.params.id }
+  })
+})(Tournament);

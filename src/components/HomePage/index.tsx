@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Action } from 'redux';
 import { RootState, actions } from '../../core';
 import { AuthError } from '../../core/actions/auth';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import './index.less';
 
@@ -26,13 +28,12 @@ interface UserButton {
   onClick: Function
 }
 
-
 class HomePage extends Component<HomePageProps, HomePageState> {
 
   private backgroundImage: string;
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {};
   }
 
@@ -56,7 +57,7 @@ class HomePage extends Component<HomePageProps, HomePageState> {
   }
 
   private renderButtons(buttons: UserButton[]) {
-    let elements;
+    let elements = [];
     for (let i = 0; i < buttons.length; i++) {
       elements.push(
         <Button

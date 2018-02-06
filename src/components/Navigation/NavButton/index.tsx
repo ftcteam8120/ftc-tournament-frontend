@@ -51,7 +51,7 @@ const mapDispatchToProps = (dispatch) => {
     followLink: (link: string) => {
       dispatch(push(link));
     }
-  };  
+  };
 };
 
 export default connect(
