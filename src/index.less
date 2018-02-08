@@ -1,6 +1,7 @@
 @import "./vars.less";
 // Import Google fonts
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700|Open+Sans:400,400i,700.css');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500.css');
 // Font variables
 @lato: 'Lato', sans-serif;
 @open-sans: 'Open Sans', sans-serif;
@@ -14,19 +15,22 @@ http://lesscss.org/
 .page-style() {
   min-height: 100vh;
   width: 100vw;
+  @media @mobile {
+    margin-bottom: 64px;
+  }
 }
 
 .titlebar-page-style() {
   margin-top: @titlebar-size-mobile + 8px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/*h1, h2, h3, h4, h5, h6 {
   font-family: @lato;
 }
 
 p {
   font-family: @open-sans;
-}
+}*/
 
 body {
   background-color: #F5F5F5;

@@ -6,11 +6,14 @@ import {
   LOGIN,
   LOGOUT
 } from '../actions/auth';
+
+import { User } from '../types';
+
 // Define the types for the auth state
 export interface AuthState {
   authenticated: boolean;
   loading: boolean;
-  user: any;
+  user: User;
   token: string;
   authError: string;
 }

@@ -16,7 +16,7 @@ import { configureClient } from './client';
 export const store = configureStore();
 export const client = configureClient(store);
 
-import { auth, login } from './core/actions/auth';
+import { theme } from './theme';
 
 // Define the root element for the application
 const rootEl = document.getElementById('app');
@@ -27,7 +27,7 @@ if (NODE_ENV === DEV) {
     ReactDOM.render(
       // The provider element provides the store to all components
       <AppContainer>
-        <RootComponent history={history} client={client} store={store} />
+        <RootComponent history={history} client={client} store={store} theme={theme} />
       </AppContainer>,
       rootEl
     );
@@ -47,7 +47,7 @@ if (NODE_ENV === DEV) {
 } else {
   // Production render
   ReactDOM.render(
-    <Root history={history} client={client} store={store} />,
+    <Root history={history} client={client} store={store} theme={theme} />,
     rootEl
   );
 }

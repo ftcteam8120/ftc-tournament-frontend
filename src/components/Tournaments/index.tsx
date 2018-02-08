@@ -6,8 +6,17 @@ import { RootState, actions } from '../../core';
 import { graphql } from 'react-apollo';
 import { push } from 'react-router-redux';
 import gql from 'graphql-tag';
+import { Toolbar, Typography, Grid } from 'material-ui';
 
 import './index.less';
+
+const styles = {
+  view: {
+    marginTop: 80,
+    marginLeft: 16,
+    marginRight: 16
+  }
+};
 
 import TitleBar from '../TitleBar';
 import TournamentItem from './TournamentItem';
@@ -24,31 +33,26 @@ class Tournaments extends Component<TournamentsProps, TournamentsState> {
 
   // The render function will render the component
   public render() {
-    const { errors, loading, events } = this.props.data;
-    console.log(this.props.data);
-    if (!loading) {
-      return (
-        <div className="tournaments">
-          <TitleBar>
-            <div className="tournaments-logo">
-              <img src="/img/logo_white.svg" />
-              <h1>Tournaments</h1>
-            </div>
-          </TitleBar>
-          <div className="tournaments-content">
-            {events.map((event) =>
-              <TournamentItem
-                onClick={() => this.props.openEvent(event.shortid)}
-                key={event.id}
-                event={event}
-              />  
-            )}  
-          </div>
-        </div>
-      );
-    } else {
-      return <div>loading</div>;
-    }
+    let { errors, loading, events } = this.props.data;
+    if (loading) events = [];
+    return (
+      <div style={styles.view}>
+        <TitleBar>
+          <Typography variant="title" color="inherit">
+            FTC Tournaments
+          </Typography>
+        </TitleBar>
+        <Grid container spacing={16} justify="center">
+          {events.map((event) =>
+            <TournamentItem
+              onClick={() => this.props.openEvent(event.shortid)}
+              key={event.id}
+              event={event}
+            />  
+          )}
+          </Grid>  
+      </div>
+    );
   }
 }
 
