@@ -14,7 +14,6 @@ import App from './App';
 import Auth from './Auth';
 import LoadingScreen from './LoadingScreen';
 import Login from './Login';
-import HomePage from './HomePage';
 import Tournaments from './Tournaments';
 import Tournament from './Tournament';
 

@@ -13,8 +13,6 @@ import { Event, Match } from '../../../../core/types';
 import LocationMap from '../../../LocationMap';
 import MatchItem from './MatchItem';
 
-import './index.less';
-
 interface Props {
   eventId: string;
 }
