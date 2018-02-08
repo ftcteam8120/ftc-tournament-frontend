@@ -1,5 +1,6 @@
 import { Node } from './Node';
 import { User } from './User';
+import { Location } from './Event';
 
 export class Team extends Node {
   coaches?: User[];
@@ -8,9 +9,11 @@ export class Team extends Node {
   biography?: string;
   name?: string;
   number?: number;
-  school?: string;
+  affiliation?: string;
+  location?: Location;
   city?: string;
   state?: string;
   country?: string;
   photo_url?: string;
+  year?: number;
 }

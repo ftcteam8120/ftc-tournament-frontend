@@ -19,6 +19,13 @@ const styles = {
     backgroundSize: 'contain',
     width: 300,
     margin: 16
+  },
+  progressContainer: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  progress: {
+    marginTop: 120
   }
 };
 
@@ -44,7 +51,9 @@ class InformationCard extends Component<ChildProps<Props, Response>> {
     return (
       <Card style={{ height: 300 }}>
         {loading ? (
-          <CircularProgress />
+          <div style={styles.progressContainer as any}>
+            <CircularProgress style={styles.progress} size={64} />  
+          </div>
         ) : (
           <div style={styles.card}>
             <MediaQuery query="(min-width: 600px)">

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MediaQuery from 'react-responsive';
+import sizeMe from 'react-sizeme';
 
 import { Match, MatchType, Winner } from '../../../../core/types';
 import { theme } from '../../../../theme';
@@ -35,14 +36,15 @@ const styles = {
 };
 
 interface MatchItemProps {
+  size?: any;
   eventId: string;
   match: Match;
   first?: boolean;
   expanded: boolean;
-  onExpand: () => void;
+  onExpand: (event, expanded: boolean) => void;
 }
 
-export default class MatchItem extends Component<MatchItemProps> {
+class MatchItem extends Component<MatchItemProps> {
 
   getColor(winner: Winner) {
     switch (winner) {
@@ -82,7 +84,7 @@ export default class MatchItem extends Component<MatchItemProps> {
     if (match.sub) {
       num += ('-' + match.sub);
     }
-    const { expanded } = this.props;
+    const { expanded, size } = this.props;
     return (
       <ExpansionPanel expanded={expanded} onChange={this.props.onExpand} style={{ position: 'relative', marginTop: expanded ? 16 : 8, marginBottom: expanded ? 16 : 8 }}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -90,26 +92,26 @@ export default class MatchItem extends Component<MatchItemProps> {
             <Typography variant="title" style={{ ...styles.numText, marginTop: expanded ? 22 : 14 }}>{num}</Typography>
           </div>
           <div style={styles.teams}>
-            <div style={{ ...styles.team, textAlign: expanded ? 'left' : 'center' }}>
+            <div style={{ ...styles.team, textAlign: expanded || size.width > 700 ? 'left' : 'center' }}>
               {match.red_alliance.teams.map((team) => (
                 <div key={team.id}>
-                  <Typography variant="body2"><b>{team.number}</b> &nbsp; {expanded ? team.name : null}</Typography>
+                  <Typography variant="body2"><b>{team.number}</b> &nbsp; {expanded || size.width > 700 ? team.name : null}</Typography>
                 </div>
               ))}
             </div>
             <Typography variant="subheading" style={{ marginTop: 12, marginLeft: 8, marginRight: 8 }}>
               VS
             </Typography>
-            <div style={{ ...styles.team, textAlign: expanded ? 'left' : 'center' }}>
+            <div style={{ ...styles.team, textAlign: expanded || size.width > 700 ? 'left' : 'center' }}>
               {match.blue_alliance.teams.map((team) => (
                 <div key={team.id}>
-                  <Typography variant="body2"><b>{team.number}</b> &nbsp; {expanded ? team.name : null}</Typography>
+                  <Typography variant="body2"><b>{team.number}</b> &nbsp; {expanded || size.width > 700 ? team.name : null}</Typography>
                 </div>
               ))}
             </div>
           </div>
           <MediaQuery query="(min-width: 450px)">
-            {expanded ? null : (
+            {expanded && size.width < 800 ? null : (
               <div style={{ marginTop: 12, marginLeft: 'auto', marginRight: 16 }}>
                 <Typography variant="title" style={{ display: 'flex' }} >
                   <div style={{ color: theme.palette.secondary.main }}>{match.red_alliance.total}</div> &nbsp; • &nbsp; <div style={{ color: theme.palette.primary.main }}>{match.blue_alliance.total}</div>
@@ -190,3 +192,5 @@ export default class MatchItem extends Component<MatchItemProps> {
     );
   }
 }
+
+export default sizeMe()(MatchItem);

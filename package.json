@@ -81,6 +81,7 @@
     "react-responsive": "^3.0.0",
     "react-router": "^4.2.0",
     "react-router-redux": "^5.0.0-alpha.8",
+    "react-sizeme": "^2.3.6",
     "react-spinners": "^0.2.6",
     "reactable": "^0.14.1",
     "recompose": "^0.26.0",

@@ -7,11 +7,22 @@ import MediaQuery from 'react-responsive';
 import { graphql, ChildProps } from 'react-apollo';
 import gql from 'graphql-tag';
 import _ from 'lodash';
+import { CircularProgress } from 'material-ui';
 
 import { Event, Match } from '../../../../core/types';
 
 import LocationMap from '../../../LocationMap';
 import MatchItem from './MatchItem';
+
+const styles = {
+  progressContainer: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  progress: {
+    marginTop: 120
+  }
+};
 
 interface Props {
   eventId: string;
@@ -34,9 +45,9 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
     };
   }
 
-  onExpand(panel) {
+  onExpand(panel, expanded) {
     this.setState({
-      expanded: panel
+      expanded: expanded ? panel : false
     });
   }
 
@@ -53,7 +64,11 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
     }
     return (
       <div style={{ width: '100%' }}>
-        {loading ? null : (
+        {loading ? (
+          <div style={styles.progressContainer as any}>
+            <CircularProgress style={styles.progress} size={64} />  
+          </div>
+        ) : (
           <div>
             {final.map((match, index) => (
               <MatchItem
@@ -61,7 +76,7 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
                 eventId={this.props.eventId}
                 match={match}
                 expanded={this.state.expanded === match.id}
-                onExpand={() => this.onExpand(match.id)}
+                onExpand={(e, v) => this.onExpand(match.id, v)}
               />
             ))}
             {semifinal.map((match, index) => (
@@ -70,7 +85,7 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
                 eventId={this.props.eventId}
                 match={match}
                 expanded={this.state.expanded === match.id}
-                onExpand={() => this.onExpand(match.id)}
+                onExpand={(e, v) => this.onExpand(match.id, v)}
               />
             ))}
             {qualifying.map((match, index) => (
@@ -79,7 +94,7 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
                 eventId={this.props.eventId}
                 match={match}
                 expanded={this.state.expanded === match.id}
-                onExpand={() => this.onExpand(match.id)}
+                onExpand={(e, v) => this.onExpand(match.id, v)}
               />
             ))}
           </div>

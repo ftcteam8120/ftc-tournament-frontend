@@ -41,6 +41,8 @@ import TitleBar from '../TitleBar';
 // Import sub screens
 import TournamentHome from './screens/Home';
 import TournamentMatches from './screens/Matches';
+import TournamentRankings from './screens/Rankings';
+import TournamentTeams from './screens/Teams';
 
 // Define the property types
 interface TournamentProps {
@@ -86,7 +88,6 @@ class Tournament extends Component<TournamentProps, TournamentState> {
   }
 
   handleChange(event, value) {
-    console.log(this.props.match);
     switch (value) {
       case 0: {
         this.props.push(this.props.match.url);
@@ -117,7 +118,7 @@ class Tournament extends Component<TournamentProps, TournamentState> {
   public render() {
     const { error, loading, event } = this.props.data;
     return (
-      <div style={{ marginTop: (this.state.width > 800) ? 152 : 72 }}>
+      <div style={{ marginTop: (this.state.width > 800) ? 120 : 72 }}>
         <TitleBar showBack={true} backTo="/events">
           <Typography variant="title" color="inherit">{loading ? 'Loading' : event.name}</Typography>
         </TitleBar>
@@ -129,14 +130,16 @@ class Tournament extends Component<TournamentProps, TournamentState> {
             indicatorColor="secondary"
             style={styles.tabs as any}
           >
-            <Tab icon={<HomeIcon />} label="EVENT" />
-            <Tab icon={<GamepadIcon />} label="MATCHES" />
-            <Tab icon={<FormatListNumberedIcon />} label="RANKINGS" />
-            <Tab icon={<PeopleIcon />} label="TEAMS" />
+            <Tab label="EVENT" />
+            <Tab label="MATCHES" />
+            <Tab label="RANKINGS" />
+            <Tab label="TEAMS" />
           </Tabs>
         </MediaQuery>
         <Route exact path={this.props.match.path} component={TournamentHome} />
-        <Route exact path={this.props.match.path+'/matches'} component={TournamentMatches}/>
+        <Route exact path={this.props.match.path + '/matches'} component={TournamentMatches} />
+        <Route exact path={this.props.match.path+ '/rankings'} component={TournamentRankings}/>
+        <Route exact path={this.props.match.path+ '/teams'} component={TournamentTeams}/>
         <MediaQuery query="(max-width: 800px)">
           <BottomNavigation
             value={this.getCurrentTab()}
