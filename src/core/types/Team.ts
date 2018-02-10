@@ -1,6 +1,12 @@
 import { Node } from './Node';
 import { User } from './User';
-import { Location } from './Event';
+import { Location, Event } from './Event';
+import { Match } from './Match';
+
+export class TeamColors {
+  primary: string;
+  secondary: string;
+}
 
 export class Team extends Node {
   coaches?: User[];
@@ -15,5 +21,10 @@ export class Team extends Node {
   state?: string;
   country?: string;
   photo_url?: string;
+  website?: string;
   year?: number;
+  colors?: TeamColors;
+  banner_url?: string;
+  matches?: Match[];
+  events?: Event[];
 }

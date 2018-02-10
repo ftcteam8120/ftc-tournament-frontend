@@ -58,9 +58,9 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
     let final: Match[] = [];
     if (!loading) {
       let groups = _.groupBy(event.matches, 'type');
-      qualifying = groups.QUALIFYING;
-      semifinal = groups.SEMIFINAL;
-      final = groups.FINAL;
+      qualifying = groups.QUALIFYING || [];
+      semifinal = groups.SEMIFINAL || [];
+      final = groups.FINAL || [];
     }
     return (
       <div style={{ width: '100%' }}>
@@ -73,7 +73,6 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
             {final.map((match, index) => (
               <MatchItem
                 key={match.id}
-                eventId={this.props.eventId}
                 match={match}
                 expanded={this.state.expanded === match.id}
                 onExpand={(e, v) => this.onExpand(match.id, v)}
@@ -82,7 +81,6 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
             {semifinal.map((match, index) => (
               <MatchItem
                 key={match.id}
-                eventId={this.props.eventId}
                 match={match}
                 expanded={this.state.expanded === match.id}
                 onExpand={(e, v) => this.onExpand(match.id, v)}
@@ -91,7 +89,6 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
             {qualifying.map((match, index) => (
               <MatchItem
                 key={match.id}
-                eventId={this.props.eventId}
                 match={match}
                 expanded={this.state.expanded === match.id}
                 onExpand={(e, v) => this.onExpand(match.id, v)}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
+import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators, Action } from 'redux';
 import { RootState, actions } from '../../../../core';
@@ -24,6 +25,7 @@ import TeamItem from './TeamItem';
 
 interface Props {
   eventId: string;
+  openTeam: (number: number) => void;
 }
 
 interface Response {
@@ -43,8 +45,8 @@ class TeamsCard extends Component<ChildProps<Props, Response>> {
         ) : (
           <Grid container spacing={16}>
             {event.teams.map((team) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                <TeamItem key={team.id} team={team}/>
+              <Grid item key={team.id} xs={12} sm={6} md={4} lg={3} xl={2}>
+                  <TeamItem team={team} onClick={() => this.props.openTeam(team.number)}/>
               </Grid>
             ))}
           </Grid>
@@ -55,21 +57,40 @@ class TeamsCard extends Component<ChildProps<Props, Response>> {
 
 }
 
-export default graphql <Response, Props>(gql`
+const mapStateToProps = (state: RootState) => ({
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openTeam: (number: number) => {
+      dispatch(push('/team/'+number));
+    }
+  };  
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(graphql<Response, Props>(gql`
   query TeamsCardQuery($id: String!) {
     event(id: $id) {
       id
       teams {
         id
         shortid
-        twitter
         name
         number
-        school
+        affiliation
         city
         state
         country
+        website
         photo_url
+        banner_url
+        colors {
+          primary
+          secondary
+        }
       }
     }
   }
@@ -77,4 +98,4 @@ export default graphql <Response, Props>(gql`
   options: (props: Props) => ({
     variables: { id: props.eventId }
   })
-})(TeamsCard);
+})(TeamsCard));

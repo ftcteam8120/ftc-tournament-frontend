@@ -16,6 +16,7 @@ import LoadingScreen from './LoadingScreen';
 import Login from './Login';
 import Tournaments from './Tournaments';
 import Tournament from './Tournament';
+import Team from './Team';
 
 /*
  The primary root element of the app
@@ -39,7 +40,8 @@ export function Root({ store, client, history, theme }) {
                 {/* All app paths that require authentication go inside the app component */}
                 <App>
                   <Route exact path="/events" component={Tournaments}/>
-                  <Route path="/event/:id" component={Tournament}/>
+                  <Route path="/event/:id" component={Tournament} />
+                  <Route path="/team/:id" component={Team}/>
                 </App>  
               </Switch>
             </ConnectedRouter>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { push } from 'react-router-redux';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import { connect } from 'react-redux';
@@ -33,6 +34,7 @@ interface Response {
 
 interface Props {
   eventId: string;
+  openTeam: (number: number) => void;
 }
 
 class RankingsCard extends Component<ChildProps<Props, Response>> {
@@ -47,7 +49,7 @@ class RankingsCard extends Component<ChildProps<Props, Response>> {
         ) : (
           <List>
             {event.rankings.map((ranking) => (
-              <ListItem key={ranking.rank + ranking.team.id} button>
+              <ListItem key={ranking.rank + ranking.team.id} onClick={() => this.props.openTeam(ranking.team.number)} button>
                 <Avatar>
                   {ranking.rank}
                 </Avatar>  
@@ -67,7 +69,21 @@ class RankingsCard extends Component<ChildProps<Props, Response>> {
   }
 }
 
-export default graphql <Response, Props>(gql`
+const mapStateToProps = (state: RootState) => ({
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openTeam: (number: number) => {
+      dispatch(push('/team/'+number));
+    }
+  };  
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(graphql<Response, Props>(gql`
   query RankingsCardQuery($id: String!) {
     event(id: $id) {
       id
@@ -88,4 +104,4 @@ export default graphql <Response, Props>(gql`
   options: (props: Props) => ({
     variables: { id: props.eventId }
   })
-})(RankingsCard);
+})(RankingsCard));

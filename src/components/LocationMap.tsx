@@ -7,7 +7,7 @@ import {
   Marker
 } from "react-google-maps";
 
-declare const GOOGLE_API_KEY: string;
+declare const MAPS_API_KEY: string;
 
 interface Props {
   lat: number;
@@ -31,7 +31,7 @@ class LocationMap extends Component<Props> {
 
 export default compose<{}, Props>(
   withProps({
-    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}`,
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}`,
     loadingElement: <div style={{ maxHeight: `300px`, width: `100%` }} />,
     containerElement: <div style={{ maxHeight: `300px`, width: `100%` }} />,
     mapElement: <div style={{ height: `100%` }} />

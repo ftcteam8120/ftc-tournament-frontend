@@ -106,6 +106,7 @@ class Tournament extends Component<TournamentProps, TournamentState> {
         break;
       }
     }
+    window.scrollTo(0, 0);
   }
 
   getCurrentTab() {
@@ -119,14 +120,13 @@ class Tournament extends Component<TournamentProps, TournamentState> {
     const { error, loading, event } = this.props.data;
     return (
       <div style={{ marginTop: (this.state.width > 800) ? 120 : 72 }}>
-        <TitleBar showBack={true} backTo="/events">
-          <Typography variant="title" color="inherit">{loading ? 'Loading' : event.name}</Typography>
-        </TitleBar>
+        <TitleBar showBack={true} backTo="/events" title={loading ? 'Loading' : event.name}/>
         <MediaQuery query="(min-width: 800px)">
           <Tabs
             value={this.getCurrentTab()}
             onChange={(e, v) => this.handleChange(e, v)}
             fullWidth
+            centered
             indicatorColor="secondary"
             style={styles.tabs as any}
           >

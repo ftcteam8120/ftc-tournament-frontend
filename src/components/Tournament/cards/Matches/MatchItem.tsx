@@ -37,7 +37,6 @@ const styles = {
 
 interface MatchItemProps {
   size?: any;
-  eventId: string;
   match: Match;
   first?: boolean;
   expanded: boolean;

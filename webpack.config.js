@@ -79,9 +79,9 @@ module.exports = function makeWebpackConfig() {
       NODE_ENV: JSON.stringify(isProd ? 'production' : 'development'),
       PROD: JSON.stringify('production'),
       DEV: JSON.stringify('development'),
-      API_URL: JSON.stringify(process.env.API_URL),
-      WS_API_URL: JSON.stringify(process.env.WS_API_URL),
-      GOOGLE_API_KEY: JSON.stringify(process.env.GOOGLE_API_KEY),
+      API_URL: JSON.stringify(isProd ? process.env.PROD_API_URL : process.env.API_URL),
+      WS_API_URL: JSON.stringify(isProd ? process.env.PROD_WS_API_URL : process.env.WS_API_URL),
+      MAPS_API_KEY: JSON.stringify(process.env.MAPS_API_KEY),
       API_VERSION: JSON.stringify('v1'),
       'process.env.NODE_ENV': JSON.stringify(isProd ? 'production' : 'development')      
     })

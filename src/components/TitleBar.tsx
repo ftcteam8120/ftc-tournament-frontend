@@ -8,9 +8,12 @@ import { bindActionCreators, Action } from 'redux';
 import { RootState, actions } from '../core';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import MediaQuery from 'react-responsive';
 import { AppBar, Typography, Toolbar, IconButton, Button } from 'material-ui';
 import MenuIcon from 'material-ui-icons/Menu';
 import ArrowBackIcon from 'material-ui-icons/ArrowBack';
+import Menu, { MenuItem } from 'material-ui/Menu';
+import AccountCircle from 'material-ui-icons/AccountCircle';
 
 const styles = {
   root: {
@@ -34,6 +37,11 @@ interface TitleBarProps {
   authenticated: boolean;
   showBack?: boolean;
   backTo?: string;
+  style?: any;
+  title?: string;
+  elevation?: number;
+  titleComponent?: any;
+  position?: string;
   logout: () => void;
   back: () => void;
   replace: (url: string) => void;
@@ -41,9 +49,26 @@ interface TitleBarProps {
 }
 
 // Define the state types
-interface TitleBarState {}
+interface TitleBarState {
+  anchorEl: any;
+}
 
 class TitleBar extends Component<TitleBarProps, TitleBarState> {
+
+  constructor(props: TitleBarProps) {
+    super(props);
+    this.state = {
+      anchorEl: null
+    };
+  }
+
+  handleMenu(event) {
+    this.setState({ anchorEl: event.currentTarget });
+  }
+
+  handleClose() {
+    this.setState({ anchorEl: null });
+  }
 
   back() {
     if (this.props.backTo) {
@@ -54,41 +79,78 @@ class TitleBar extends Component<TitleBarProps, TitleBarState> {
   }
   
   public render() {
-    let currentUser;
-    if (this.props.authenticated) {
-      currentUser = (
-        <div style={styles.currentUser}>
-          <Button color="inherit" onClick={() => {}}>Account</Button>
-          <Button color="inherit" onClick={() => this.props.logout()}>Logout</Button>
-        </div>
-      );
-    } else {
-      currentUser = (
-        <div style={styles.currentUser}>
-          <Button color="inherit" onClick={() => this.props.goToLogin()}>Login</Button>
-          <Button color="inherit" onClick={() => { }}>Signup</Button>
-        </div>
-      );
-    }
+    const open = Boolean(this.state.anchorEl);
+    let elevation = 2;
+    if (this.props.elevation != undefined) elevation = this.props.elevation;
     return (
-      <AppBar position="fixed" color="primary">
+      <AppBar position={this.props.position as any || "fixed"} color="primary" style={this.props.style} elevation={elevation}>
         <Toolbar>
           {this.props.showBack ? (
             <IconButton style={styles.menuButton} onClick={() => this.back()} color="inherit" aria-label="Menu">
               <ArrowBackIcon />
             </IconButton>
-          ): (
-            <IconButton style={styles.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
+          ) : (
+              <IconButton style={styles.menuButton} color="inherit" aria-label="Menu">
+                <MenuIcon />
+              </IconButton>
+            )}
+          <Typography variant="title" color="inherit">{this.props.title}</Typography>
+          <span style={{ display: 'flex', flex: 1 }}>
+            {this.props.titleComponent}  
+          </span>
+          <MediaQuery query="(min-width: 601px)">
+            {this.props.authenticated ? (
+              <div style={styles.currentUser}>
+                <Button color="inherit" onClick={() => {}}>My Account</Button>
+                <Button color="inherit" onClick={() => this.props.logout()}>Logout</Button>
+              </div>
+            ) : (
+              <div style={styles.currentUser}>
+                <Button color="inherit" onClick={() => this.props.goToLogin()}>Login</Button>
+                <Button color="inherit" onClick={() => { }}>Signup</Button>
+              </div>
+            )}
+          </MediaQuery>
+          <MediaQuery query="(max-width: 600px)">
+            <IconButton
+              aria-owns={open ? 'menu-appbar' : null}
+              aria-haspopup="true"
+              onClick={(event) => this.handleMenu(event)}
+              color="inherit"
+            >
+              <AccountCircle />
             </IconButton>
-          )}
-          <div style={styles.flex}>
-            {this.props.children}  
-          </div>
-          {currentUser}
+            <Menu
+              id="menu-appbar"
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={open}
+              onClose={() => this.handleClose()}
+            >
+              {this.props.authenticated ? (
+                <div>
+                  <MenuItem onClick={() => {}}>My Account</MenuItem>
+                  <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
+                </div>
+              ) : (
+                <div>
+                  <MenuItem onClick={() => this.props.goToLogin()}>Login</MenuItem>
+                  <MenuItem onClick={() => this.props.logout()}>Signup</MenuItem>
+                </div>
+              )}  
+            </Menu>
+          </MediaQuery>
         </Toolbar>
+        {this.props.children}
       </AppBar>
-    )
+    );
   }
 
 }

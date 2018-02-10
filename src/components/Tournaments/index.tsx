@@ -37,17 +37,12 @@ class Tournaments extends Component<TournamentsProps, TournamentsState> {
     if (loading) events = [];
     return (
       <div style={styles.view}>
-        <TitleBar>
-          <Typography variant="title" color="inherit">
-            FTC Tournaments
-          </Typography>
-        </TitleBar>
+        <TitleBar title="FTC Tournaments"/>
         <Grid container spacing={16} justify="center">
           {events.map((event) =>
-          <Grid item md={4} sm={6} xs={12} lg={3} xl={2}>  
+          <Grid item key={event.id} md={4} sm={6} xs={12} lg={3} xl={2}>  
             <TournamentItem
               onClick={() => this.props.openEvent(event.shortid)}
-              key={event.id}
               event={event}
               />
             </Grid>  
