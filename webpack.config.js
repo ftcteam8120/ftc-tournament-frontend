@@ -77,6 +77,7 @@ module.exports = function makeWebpackConfig() {
     ),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(isProd ? 'production' : 'development'),
+      VERSION: JSON.stringify(package.version),
       PROD: JSON.stringify('production'),
       DEV: JSON.stringify('development'),
       API_URL: JSON.stringify(isProd ? process.env.PROD_API_URL : process.env.API_URL),

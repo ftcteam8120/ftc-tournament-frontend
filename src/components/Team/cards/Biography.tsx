@@ -56,6 +56,7 @@ class BiographyCard extends Component<ChildProps<Props, Response>> {
 export default graphql<any, any>(gql`
   query BiographyCardQuery($number: Int) {
     team(number: $number) {
+      id
       biography
     }
   }

@@ -17,6 +17,8 @@ import Login from './Login';
 import Tournaments from './Tournaments';
 import Tournament from './Tournament';
 import Team from './Team';
+import MyEvents from './MyEvents';
+import MyTeams from './MyTeams';
 
 /*
  The primary root element of the app
@@ -41,7 +43,9 @@ export function Root({ store, client, history, theme }) {
                 <App>
                   <Route exact path="/events" component={Tournaments}/>
                   <Route path="/event/:id" component={Tournament} />
-                  <Route path="/team/:id" component={Team}/>
+                  <Route path="/team/:id" component={Team} />
+                  <Route path="/myevents" component={MyEvents} />
+                  <Route path="/myteams" component={MyTeams}/>
                 </App>  
               </Switch>
             </ConnectedRouter>

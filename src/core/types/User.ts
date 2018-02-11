@@ -1,5 +1,6 @@
 import { Node } from './Node';
 import { Team } from './Team';
+import { Event } from './Event';
 
 export class Photo {
   value: string;
@@ -26,6 +27,7 @@ export class Profile {
 }
 
 export class User extends Node {
+  events?: Event[];
   teams?: Team[];
   username?: string;
   profile?: Profile;

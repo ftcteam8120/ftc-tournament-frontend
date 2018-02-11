@@ -5,9 +5,11 @@ import { apolloReducer } from 'apollo-cache-redux';
 
 // Import all of the separate reducers below
 import { auth } from './auth';
+import { drawer } from './drawer';
 
 const reducers = {
-  auth
+  auth,
+  drawer
 };
 // Export the combined reducers
 export const rootReducer = combineReducers({

@@ -15,6 +15,7 @@ import PeopleIcon from 'material-ui-icons/People';
 import GamepadIcon from 'material-ui-icons/Gamepad';
 import HomeIcon from 'material-ui-icons/Home';
 import FormatListNumberedIcon from 'material-ui-icons/FormatListNumbered';
+import { theme } from '../../theme';
 
 const styles = {
   tabs: {
@@ -37,6 +38,7 @@ const styles = {
 
 // Import other components
 import TitleBar from '../TitleBar';
+import AppDrawer from '../AppDrawer';
 
 // Import sub screens
 import TournamentHome from './screens/Home';
@@ -118,28 +120,36 @@ class Tournament extends Component<TournamentProps, TournamentState> {
 
   public render() {
     const { error, loading, event } = this.props.data;
+    let tabsStyle;
+    if (this.state.width > theme.breakpoints.values.md) {
+      tabsStyle = {
+        left: 250,
+        width: `calc(100% - ${250}px)`
+      };
+    }
     return (
-      <div style={{ marginTop: (this.state.width > 800) ? 120 : 72 }}>
-        <TitleBar showBack={true} backTo="/events" title={loading ? 'Loading' : event.name}/>
-        <MediaQuery query="(min-width: 800px)">
-          <Tabs
-            value={this.getCurrentTab()}
-            onChange={(e, v) => this.handleChange(e, v)}
-            fullWidth
-            centered
-            indicatorColor="secondary"
-            style={styles.tabs as any}
-          >
-            <Tab label="EVENT" />
-            <Tab label="MATCHES" />
-            <Tab label="RANKINGS" />
-            <Tab label="TEAMS" />
-          </Tabs>
-        </MediaQuery>
+      <div style={{ marginTop: (this.state.width > 800) ? 120 : 72, marginBottom: 72 }}>
+        <TitleBar backTo="/events" title={loading ? 'Loading' : event.name}>
+          <MediaQuery query="(min-width: 800px)">
+            <Tabs
+              value={this.getCurrentTab()}
+              onChange={(e, v) => this.handleChange(e, v)}
+              fullWidth
+              centered
+              indicatorColor="secondary"
+              style={{...styles.tabs, ...tabsStyle}}
+            >
+              <Tab label="EVENT" />
+              <Tab label="MATCHES" />
+              <Tab label="RANKINGS" />
+              <Tab label="TEAMS" />
+            </Tabs>
+          </MediaQuery>
+        </TitleBar>
         <Route exact path={this.props.match.path} component={TournamentHome} />
         <Route exact path={this.props.match.path + '/matches'} component={TournamentMatches} />
-        <Route exact path={this.props.match.path+ '/rankings'} component={TournamentRankings}/>
-        <Route exact path={this.props.match.path+ '/teams'} component={TournamentTeams}/>
+        <Route exact path={this.props.match.path + '/rankings'} component={TournamentRankings} />
+        <Route exact path={this.props.match.path + '/teams'} component={TournamentTeams} />
         <MediaQuery query="(max-width: 800px)">
           <BottomNavigation
             value={this.getCurrentTab()}

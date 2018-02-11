@@ -6,14 +6,16 @@ import { push, goBack, replace } from 'react-router-redux';
 import { bindActionCreators, Action } from 'redux';
 // Import the root state types and actions from the core folder
 import { RootState, actions } from '../core';
+import { openDrawer } from '../core/actions/drawer';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import MediaQuery from 'react-responsive';
-import { AppBar, Typography, Toolbar, IconButton, Button } from 'material-ui';
+import { AppBar, Typography, Toolbar, IconButton, Button, withStyles } from 'material-ui';
 import MenuIcon from 'material-ui-icons/Menu';
 import ArrowBackIcon from 'material-ui-icons/ArrowBack';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import AccountCircle from 'material-ui-icons/AccountCircle';
+import { theme } from '../theme';
 
 const styles = {
   root: {
@@ -46,11 +48,12 @@ interface TitleBarProps {
   back: () => void;
   replace: (url: string) => void;
   goToLogin: () => void;
+  openDrawer: () => void;
 }
 
 // Define the state types
 interface TitleBarState {
-  anchorEl: any;
+  width: number;
 }
 
 class TitleBar extends Component<TitleBarProps, TitleBarState> {
@@ -58,16 +61,25 @@ class TitleBar extends Component<TitleBarProps, TitleBarState> {
   constructor(props: TitleBarProps) {
     super(props);
     this.state = {
-      anchorEl: null
+      width: 0
     };
   }
 
-  handleMenu(event) {
-    this.setState({ anchorEl: event.currentTarget });
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', () => {
+      this.updateWindowDimensions();
+    });
   }
-
-  handleClose() {
-    this.setState({ anchorEl: null });
+  
+  componentWillUnmount() {
+    window.removeEventListener('resize', () => {
+      this.updateWindowDimensions();
+    });
+  }
+  
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth });
   }
 
   back() {
@@ -79,74 +91,35 @@ class TitleBar extends Component<TitleBarProps, TitleBarState> {
   }
   
   public render() {
-    const open = Boolean(this.state.anchorEl);
     let elevation = 2;
+    const canGoBack = (window.history.length > 1);
     if (this.props.elevation != undefined) elevation = this.props.elevation;
+    let appBarStyle;
+    let menuButton;
+    if (this.state.width > theme.breakpoints.values.md) {
+      appBarStyle = {
+        left: 250,
+        width: `calc(100% - ${48}px)`
+      };
+    } else {
+      menuButton = (
+        <IconButton style={styles.menuButton} color="inherit" aria-label="Menu" onClick={() => this.props.openDrawer()}>
+          <MenuIcon />
+        </IconButton>
+      );
+    }
     return (
-      <AppBar position={this.props.position as any || "fixed"} color="primary" style={this.props.style} elevation={elevation}>
+      <AppBar position={this.props.position as any || "fixed"} color="primary" style={{ ...appBarStyle, ...this.props.style }} elevation={elevation}>
         <Toolbar>
-          {this.props.showBack ? (
+          {this.props.showBack && canGoBack ? (
             <IconButton style={styles.menuButton} onClick={() => this.back()} color="inherit" aria-label="Menu">
               <ArrowBackIcon />
             </IconButton>
-          ) : (
-              <IconButton style={styles.menuButton} color="inherit" aria-label="Menu">
-                <MenuIcon />
-              </IconButton>
-            )}
+          ) : menuButton}
           <Typography variant="title" color="inherit">{this.props.title}</Typography>
           <span style={{ display: 'flex', flex: 1 }}>
             {this.props.titleComponent}  
           </span>
-          <MediaQuery query="(min-width: 601px)">
-            {this.props.authenticated ? (
-              <div style={styles.currentUser}>
-                <Button color="inherit" onClick={() => {}}>My Account</Button>
-                <Button color="inherit" onClick={() => this.props.logout()}>Logout</Button>
-              </div>
-            ) : (
-              <div style={styles.currentUser}>
-                <Button color="inherit" onClick={() => this.props.goToLogin()}>Login</Button>
-                <Button color="inherit" onClick={() => { }}>Signup</Button>
-              </div>
-            )}
-          </MediaQuery>
-          <MediaQuery query="(max-width: 600px)">
-            <IconButton
-              aria-owns={open ? 'menu-appbar' : null}
-              aria-haspopup="true"
-              onClick={(event) => this.handleMenu(event)}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={this.state.anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={open}
-              onClose={() => this.handleClose()}
-            >
-              {this.props.authenticated ? (
-                <div>
-                  <MenuItem onClick={() => {}}>My Account</MenuItem>
-                  <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
-                </div>
-              ) : (
-                <div>
-                  <MenuItem onClick={() => this.props.goToLogin()}>Login</MenuItem>
-                  <MenuItem onClick={() => this.props.logout()}>Signup</MenuItem>
-                </div>
-              )}  
-            </Menu>
-          </MediaQuery>
         </Toolbar>
         {this.props.children}
       </AppBar>
@@ -175,6 +148,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     replace: (url: string) => {
       dispatch(replace(url));
+    },
+    openDrawer: () => {
+      dispatch(openDrawer());
     }
   };  
 };

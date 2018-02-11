@@ -25,6 +25,7 @@ import { getTeamTheme, backgroundImageTheme } from '../../utils/teamThemes';
 import TitleBar from '../TitleBar';
 import TeamMatches from './screens/Matches';
 import TeamHome from './screens/Home';
+import TeamTournaments from './screens/Tournaments';
 
 // Define the property types
 interface TeamProps {
@@ -147,8 +148,6 @@ class Tournament extends Component<ChildProps<TeamProps, TeamResponse>, TeamStat
         <MuiThemeProvider theme={theme}>
           {collapsed && (
             <TitleBar
-              showBack={true}
-              backTo="/"
               titleComponent={titleComponent}
               elevation={2}
               style={{
@@ -167,8 +166,6 @@ class Tournament extends Component<ChildProps<TeamProps, TeamResponse>, TeamStat
               <AppBar style={{ height: mobile ? 500 : 350, backgroundImage: bannerBkg, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} position="static">
                 <TitleBar
                   position="static"
-                  showBack={true}
-                  backTo="/"
                   title={loading ? null : String(team.number)}
                   elevation={0}
                   style={titleBarStyle}
@@ -209,6 +206,7 @@ class Tournament extends Component<ChildProps<TeamProps, TeamResponse>, TeamStat
         </MuiThemeProvider>
         <div style={{ marginTop: 16, marginBottom: 64 }}>
           <Route exact path={this.props.match.path} component={TeamHome} />
+          <Route exact path={this.props.match.path + '/events'} component={TeamTournaments} />
           <Route exact path={this.props.match.path + '/matches'} component={TeamMatches} />
         </div>
         <MediaQuery query="(max-width: 800px)">
