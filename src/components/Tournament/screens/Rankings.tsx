@@ -11,7 +11,7 @@ import RankingsCard from '../cards/Rankings';
 interface TournamentRankingsProps {
   match: {
     params: {
-      id: string;
+      event_code: string;
     }
   }
 }
@@ -22,7 +22,9 @@ export default class TournamentRankings extends Component<TournamentRankingsProp
   public render() {
     return (
       <div style={{ marginLeft: 16, marginRight: 16 }}>
-        <RankingsCard eventId={this.props.match.params.id}/>
+        <RankingsCard
+          eventCode={this.props.match.params.event_code}
+        />
       </div>
     );
   }

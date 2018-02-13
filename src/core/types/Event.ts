@@ -3,6 +3,16 @@ import { Team } from './Team';
 import { User } from './User';
 import { Match } from './Match';
 
+export enum EventType {
+  SCRIMMAGE = 'SCRIMMAGE',
+  MEET = 'MEET',
+  QUALIFYING = 'QUALIFYING',
+  SUPER_QUALIFYING = 'SUPER_QUALIFYING',
+  CHAMPIONSHIP = 'CHAMPIONSHIP',
+  SUPER_REGIONAL = 'SUPER_REGIONAL',
+  WORLD  = 'WORLD'
+}
+
 export enum SponsorType {
   PRIMARY = 'PRIMARY',
   SECONDARY = 'SECONDARY'
@@ -35,6 +45,8 @@ export class Ranking {
 }
 
 export class Event extends Node {
+  type?: EventType;
+  code?: string;
   admins?: User[];
   teams?: Team[];
   current_round?: number;

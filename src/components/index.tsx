@@ -42,7 +42,7 @@ export function Root({ store, client, history, theme }) {
                 {/* All app paths that require authentication go inside the app component */}
                 <App>
                   <Route exact path="/events" component={Tournaments}/>
-                  <Route path="/event/:id" component={Tournament} />
+                  <Route path="/event/:event_code" component={Tournament} />
                   <Route path="/team/:id" component={Team} />
                   <Route path="/myevents" component={MyEvents} />
                   <Route path="/myteams" component={MyTeams}/>

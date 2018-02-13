@@ -33,7 +33,7 @@ interface Response {
 }
 
 interface Props {
-  eventId: string;
+  eventCode: string;
   openTeam: (number: number) => void;
 }
 
@@ -84,8 +84,8 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(graphql<Response, Props>(gql`
-  query RankingsCardQuery($id: String!) {
-    event(id: $id) {
+  query RankingsCardQuery($code: String) {
+    event(code: $code) {
       id
       rankings {
         rank
@@ -102,6 +102,8 @@ export default connect(
   }
 `, {
   options: (props: Props) => ({
-    variables: { id: props.eventId }
+    variables: {
+      code: props.eventCode
+    }
   })
 })(RankingsCard));

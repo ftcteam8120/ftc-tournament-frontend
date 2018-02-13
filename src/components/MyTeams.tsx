@@ -72,12 +72,11 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(graphql<any, any>(gql`
-  query MyEventsQuery($user_id: String!) {
+  query MyTeamsQuery($user_id: String!) {
     user(id: $user_id) {
       id
       teams {
         id
-        shortid
         name
         number
         affiliation
@@ -95,7 +94,7 @@ export default connect(
     }
   }
 `, {
-  options: (props: any) => ({
-    variables: { user_id: props.user._id }
+  options: (props: Props) => ({
+    variables: { user_id: props.user.id }
   })
 })(MyTeams));

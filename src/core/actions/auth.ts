@@ -17,6 +17,7 @@ export enum AuthError {
 
 // Trigger this action on auth success
 export function authSuccess(user: any, token: string): any {
+  user.id = user._id;
   return {
     type: AUTH_SUCCESS,
     user,

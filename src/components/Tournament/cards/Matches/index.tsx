@@ -25,7 +25,7 @@ const styles = {
 };
 
 interface Props {
-  eventId: string;
+  eventCode: string;
 }
 
 interface State {
@@ -103,8 +103,8 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
 }
 
 export default graphql <Response, Props>(gql`
-  query MatchesCardQuery($id: String!) {
-    event(id: $id) {
+  query MatchesCardQuery($code: String) {
+    event(code: $code) {
       id
       matches(orderBy: { number: DESC, sub: DESC }) {
         id
@@ -143,6 +143,8 @@ export default graphql <Response, Props>(gql`
   }
 `, {
   options: (props: Props) => ({
-    variables: { id: props.eventId }
+    variables: {
+      code: props.eventCode
+    }
   })
 })(MatchesCard);

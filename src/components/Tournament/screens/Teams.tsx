@@ -10,7 +10,7 @@ import TeamsCard from '../cards/Teams';
 interface TournamentTeamsProps {
   match: {
     params: {
-      id: string;
+      event_code: string;
     }
   }
 }
@@ -21,7 +21,9 @@ export default class TournamentTeams extends Component<TournamentTeamsProps> {
   public render() {
     return (
       <div style={{ marginLeft: 16, marginRight: 16 }}>
-        <TeamsCard eventId={this.props.match.params.id}/>
+        <TeamsCard
+          eventCode={this.props.match.params.event_code}
+        />
       </div>
     );
   }

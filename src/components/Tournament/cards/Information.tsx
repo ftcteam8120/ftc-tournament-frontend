@@ -30,7 +30,7 @@ const styles = {
 };
 
 interface Props {
-  eventId: string;
+  eventCode: string;
 }
 
 interface Response {
@@ -43,9 +43,19 @@ class InformationCard extends Component<ChildProps<Props, Response>> {
   public render() {
     const { error, loading, event } = this.props.data;
     let address;
+    let logo;
     if (!loading) {
       if (event.location) {
         address = <p>{event.location.address}</p>;
+      }
+      if (event.logo_url) {
+        logo = (
+          <CardMedia
+            style={styles.media}
+            image={event.logo_url}
+            title="Event Logo"
+          />
+        );
       }
     }
     return (
@@ -57,11 +67,7 @@ class InformationCard extends Component<ChildProps<Props, Response>> {
         ) : (
           <div style={styles.card}>
             <MediaQuery query="(min-width: 600px)">
-              <CardMedia
-                style={styles.media}
-                image={event.logo_url}
-                title="Event Logo"
-              />
+              {logo}
             </MediaQuery>
             <CardContent>
               <Typography variant="display1" color="default">{event.name}</Typography>
@@ -85,11 +91,10 @@ class InformationCard extends Component<ChildProps<Props, Response>> {
 }
 
 export default graphql<any, any>(gql`
-  query InformationCardQuery($id: String!) {
-    event(id: $id) {
+  query InformationCardQuery($code: String) {
+    event(code: $code) {
       id
       name
-      shortid
       logo_url
       description
       start
@@ -106,6 +111,8 @@ export default graphql<any, any>(gql`
   }
 `, {
   options: (props: Props) => ({
-    variables: { id: props.eventId }
+    variables: {
+      code: props.eventCode
+    }
   })
 })(InformationCard);

@@ -24,7 +24,7 @@ const styles = {
 import TeamItem from './TeamItem';
 
 interface Props {
-  eventId: string;
+  eventCode: string;
   openTeam: (number: number) => void;
 }
 
@@ -45,7 +45,7 @@ class TeamsCard extends Component<ChildProps<Props, Response>> {
         ) : (
           <Grid container spacing={16}>
             {event.teams.map((team) => (
-              <Grid item key={team.id} xs={12} sm={6} md={4} lg={3} xl={2}>
+              <Grid item key={team.id} xs={12} sm={6} md={6} lg={4} xl={3}>
                   <TeamItem team={team} onClick={() => this.props.openTeam(team.number)}/>
               </Grid>
             ))}
@@ -72,12 +72,11 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(graphql<Response, Props>(gql`
-  query TeamsCardQuery($id: String!) {
-    event(id: $id) {
+  query TeamsCardQuery($code: String) {
+    event(code: $code) {
       id
       teams {
         id
-        shortid
         name
         number
         affiliation
@@ -96,6 +95,8 @@ export default connect(
   }
 `, {
   options: (props: Props) => ({
-    variables: { id: props.eventId }
+    variables: {
+      code: props.eventCode
+    }
   })
 })(TeamsCard));

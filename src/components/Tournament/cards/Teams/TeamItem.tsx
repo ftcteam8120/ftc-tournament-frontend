@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { Card, CardContent, CardActions, Button, Typography, MuiThemeProvider, Avatar } from 'material-ui';
+import LinesEllipsis from 'react-lines-ellipsis';
+import responsiveHOC from 'react-lines-ellipsis/lib/responsiveHOC';
+
+const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
 
 import { Team } from '../../../../core/types';
 
@@ -47,8 +51,24 @@ export default class TeamItem extends Component<Props> {
               {!team.photo_url && <Typography variant="title" style={{ color: theme.palette.secondary.main.contrastText }}>{team.name.substr(0, 1).toUpperCase()}</Typography>}
             </Avatar>
             <div style={{ marginLeft: 16 }}>
-              <Typography variant="title">{team.name}</Typography>
-              <Typography variant="subheading">{team.affiliation}</Typography>
+              <Typography variant="title">
+                <ResponsiveEllipsis
+                  text={team.name}
+                  maxLine={2}
+                  ellipsis="..."
+                  trimRight
+                  basedOn="letters"
+                />
+              </Typography>
+              <Typography variant="subheading">
+                <ResponsiveEllipsis
+                  text={team.affiliation}
+                  maxLine={2}
+                  ellipsis="..."
+                  trimRight
+                  basedOn="letters"
+                />
+              </Typography>
               <Typography variant="body1">{team.city}, {team.state} {team.country}</Typography>
             </div>
           </CardContent>

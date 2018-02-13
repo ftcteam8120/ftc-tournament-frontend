@@ -10,12 +10,22 @@ import { RootState, actions } from '../../core';
 import MediaQuery from 'react-responsive';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Tabs, Tab, Typography, BottomNavigation, BottomNavigationAction } from 'material-ui';
+import {
+  Tabs,
+  Tab,
+  Typography,
+  BottomNavigation,
+  BottomNavigationAction,
+  Card,
+  CardContent
+} from 'material-ui';
 import PeopleIcon from 'material-ui-icons/People';
 import GamepadIcon from 'material-ui-icons/Gamepad';
 import HomeIcon from 'material-ui-icons/Home';
 import FormatListNumberedIcon from 'material-ui-icons/FormatListNumbered';
 import { theme } from '../../theme';
+
+import { User, Event } from '../../core/types';
 
 const styles = {
   tabs: {
@@ -45,6 +55,7 @@ import TournamentHome from './screens/Home';
 import TournamentMatches from './screens/Matches';
 import TournamentRankings from './screens/Rankings';
 import TournamentTeams from './screens/Teams';
+import AdminTools from './cards/AdminTools';
 
 // Define the property types
 interface TournamentProps {
@@ -52,11 +63,12 @@ interface TournamentProps {
     path: string;
     url: string;
     params: {
-      id: string;
+      event_code: string;
     }
   }
   push: (url: string) => void;
   location: any;
+  user: User;
   data: any;
 }
 
@@ -119,7 +131,7 @@ class Tournament extends Component<TournamentProps, TournamentState> {
   }
 
   public render() {
-    const { error, loading, event } = this.props.data;
+    const { error, loading, event }: { error: any, loading: boolean, event: Event } = this.props.data;
     let tabsStyle;
     if (this.state.width > theme.breakpoints.values.md) {
       tabsStyle = {
@@ -146,6 +158,7 @@ class Tournament extends Component<TournamentProps, TournamentState> {
             </Tabs>
           </MediaQuery>
         </TitleBar>
+        { !loading && <AdminTools event={event} user={this.props.user}/> }
         <Route exact path={this.props.match.path} component={TournamentHome} />
         <Route exact path={this.props.match.path + '/matches'} component={TournamentMatches} />
         <Route exact path={this.props.match.path + '/rankings'} component={TournamentRankings} />
@@ -171,6 +184,7 @@ class Tournament extends Component<TournamentProps, TournamentState> {
 
 // Function to map the state of the object to the component props
 const mapStateToProps = (state: RootState) => ({
+  user: state.auth.user
 });
 
 // Function to map the dispatch functions to the component props
@@ -186,15 +200,25 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(graphql<any, any>(gql`
-  query EventQuery($id: String!) {
-    event(id: $id) {
+  query EventQuery($code: String) {
+    event(code: $code) {
       id
       name
-      shortid
+      start
+      end
+      description
+      location {
+        address
+      }
+      admins {
+        id
+      }
     }
   }
 `, {
   options: (props: TournamentProps) => ({
-    variables: { id: props.match.params.id }
+    variables: {
+      code: props.match.params.event_code
+    }
   })
 })(Tournament));

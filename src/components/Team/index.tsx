@@ -252,7 +252,6 @@ export default sizeMe()(connect(
   query TeamQuery($id: String, $number: Int) {
     team(id: $id, number: $number) {
       id
-      shortid
       name
       number
       city

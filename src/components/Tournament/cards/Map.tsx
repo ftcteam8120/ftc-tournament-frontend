@@ -26,7 +26,7 @@ const styles = {
 };
 
 interface Props {
-  eventId: string;
+  eventCode: string;
 }
 
 interface Response {
@@ -65,8 +65,8 @@ class MapCard extends Component<ChildProps<Props, Response>> {
 }
 
 export default graphql<Response, Props>(gql`
-  query MapCardQuery($id: String!) {
-    event(id: $id) {
+  query MapCardQuery($code: String) {
+    event(code: $code) {
       id
       location {
         coordinates {
@@ -78,6 +78,8 @@ export default graphql<Response, Props>(gql`
   }
 `, {
   options: (props: Props) => ({
-    variables: { id: props.eventId }
+    variables: {
+      code: props.eventCode
+    }
   })
 })(MapCard);

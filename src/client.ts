@@ -21,7 +21,7 @@ export function configureClient(store) {
   });
     // Create a WebSocket link:
   const wsLink = new WebSocketLink({
-    uri: WS_API_URL + '/graphql',
+    uri: WS_API_URL + '/websocket',
     options: {
       reconnect: true
     }

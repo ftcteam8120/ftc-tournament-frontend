@@ -13,7 +13,7 @@ import MatchesCard from '../cards/Matches';
 interface TournamentMatchesProps {
   match: {
     params: {
-      id: string;
+      event_code: string;
     }
   }
   data: any;
@@ -25,7 +25,9 @@ export default class TournamentMatches extends Component<TournamentMatchesProps>
   public render() {
     return (
       <div style={{ marginLeft: 16, marginRight: 16 }}>
-        <MatchesCard eventId={this.props.match.params.id} />
+        <MatchesCard
+          eventCode={this.props.match.params.event_code}
+        />
       </div>
     );
   }

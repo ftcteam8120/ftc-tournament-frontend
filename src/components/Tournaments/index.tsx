@@ -24,7 +24,7 @@ import TournamentItem from './TournamentItem';
 // Define the property types
 interface TournamentsProps {
   data: any;
-  openEvent: (shortid: string) => void;
+  openEvent: (code: string) => void;
 }
 
 interface TournamentsState {}
@@ -42,7 +42,7 @@ class Tournaments extends Component<TournamentsProps, TournamentsState> {
           {events.map((event) =>
           <Grid item key={event.id} md={6} sm={6} xs={12} lg={4} xl={3}>  
             <TournamentItem
-              onClick={() => this.props.openEvent(event.shortid)}
+              onClick={() => this.props.openEvent(event.code)}
               event={event}
               />
             </Grid>  
@@ -59,8 +59,8 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openEvent: (shortid: string) => {
-      dispatch(push('/event/'+ shortid));
+    openEvent: (code: string) => {
+      dispatch(push('/event/'+ code));
     }
   };  
 };
@@ -73,6 +73,7 @@ export default connect(
     events {
       id
       name
+      code
       location {
         address
         description
@@ -80,7 +81,6 @@ export default connect(
       description
       start
       end
-      shortid
       logo_url
     }
   }

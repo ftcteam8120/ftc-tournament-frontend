@@ -30,7 +30,7 @@ interface Props {
       id: string;
     }
   }
-  openEvent: (shortid: string) => void;
+  openEvent: (code: string) => void;
 }
 
 interface Response {
@@ -56,7 +56,7 @@ class TeamTournaments extends Component<ChildProps<Props, Response>> {
               {team.events.map((event) =>
                 <Grid item key={event.id} md={6} sm={6} xs={12} lg={4} xl={3}>
                   <TournamentItem
-                    onClick={() => this.props.openEvent(event.shortid)}
+                    onClick={() => this.props.openEvent(event.code)}
                     event={event}
                   />
                 </Grid>
@@ -75,8 +75,8 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openEvent: (shortid: string) => {
-      dispatch(push('/event/'+ shortid));
+    openEvent: (code: string) => {
+      dispatch(push('/event/'+ code));
     }
   };  
 };
@@ -90,6 +90,7 @@ export default connect(
       id
       events {
         id
+        code
         name
         location {
           address
@@ -98,7 +99,6 @@ export default connect(
         description
         start
         end
-        shortid
         logo_url
       }
     }
