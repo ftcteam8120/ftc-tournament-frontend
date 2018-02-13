@@ -1,5 +1,5 @@
 // Import the base Component class from React
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Route } from 'react-router';
 import { push } from 'react-router-redux';
 // Import the connector to connect React and Redux
@@ -24,6 +24,9 @@ import GamepadIcon from 'material-ui-icons/Gamepad';
 import HomeIcon from 'material-ui-icons/Home';
 import FormatListNumberedIcon from 'material-ui-icons/FormatListNumbered';
 import { theme } from '../../theme';
+
+import EmptyState from '../EmptyState';
+import ErrorState from '../ErrorState';
 
 import { User, Event } from '../../core/types';
 
@@ -133,15 +136,44 @@ class Tournament extends Component<TournamentProps, TournamentState> {
   public render() {
     const { error, loading, event }: { error: any, loading: boolean, event: Event } = this.props.data;
     let tabsStyle;
+    let content;
     if (this.state.width > theme.breakpoints.values.md) {
       tabsStyle = {
         left: 250,
         width: `calc(100% - ${250}px)`
       };
     }
+    if (error) {
+      content = <ErrorState message="Error Loading Event" error={error} />;
+    } else if (!event && !loading) {
+      content = <EmptyState message="Event Not Found" />;
+    } else if (event) {
+      content = (
+        <Fragment>
+          {!loading && <AdminTools event={event} user={this.props.user} />}
+          <Route exact path={this.props.match.path} component={TournamentHome} />
+          <Route exact path={this.props.match.path + '/matches'} component={TournamentMatches} />
+          <Route exact path={this.props.match.path + '/rankings'} component={TournamentRankings} />
+          <Route exact path={this.props.match.path + '/teams'} component={TournamentTeams} />
+          <MediaQuery query="(max-width: 800px)">
+            <BottomNavigation
+              value={this.getCurrentTab()}
+              onChange={(e, v) => this.handleChange(e, v)}
+              showLabels
+              style={styles.nav as any}
+            >
+              <BottomNavigationAction label="Event" icon={<HomeIcon />} />
+              <BottomNavigationAction label="Matches" icon={<GamepadIcon />} />
+              <BottomNavigationAction label="Rankings" icon={<FormatListNumberedIcon />} />
+              <BottomNavigationAction label="Teams" icon={<PeopleIcon />} />
+            </BottomNavigation>
+          </MediaQuery>
+        </Fragment>
+      );
+    }
     return (
       <div style={{ marginTop: (this.state.width > 800) ? 120 : 72, marginBottom: 72 }}>
-        <TitleBar backTo="/events" title={loading ? 'Loading' : event.name}>
+        <TitleBar backTo="/events" title={(!error && event) && event.name}>
           <MediaQuery query="(min-width: 800px)">
             <Tabs
               value={this.getCurrentTab()}
@@ -158,24 +190,7 @@ class Tournament extends Component<TournamentProps, TournamentState> {
             </Tabs>
           </MediaQuery>
         </TitleBar>
-        { !loading && <AdminTools event={event} user={this.props.user}/> }
-        <Route exact path={this.props.match.path} component={TournamentHome} />
-        <Route exact path={this.props.match.path + '/matches'} component={TournamentMatches} />
-        <Route exact path={this.props.match.path + '/rankings'} component={TournamentRankings} />
-        <Route exact path={this.props.match.path + '/teams'} component={TournamentTeams} />
-        <MediaQuery query="(max-width: 800px)">
-          <BottomNavigation
-            value={this.getCurrentTab()}
-            onChange={(e, v) => this.handleChange(e, v)}
-            showLabels
-            style={styles.nav as any}
-          >
-            <BottomNavigationAction label="Event" icon={<HomeIcon />} />
-            <BottomNavigationAction label="Matches" icon={<GamepadIcon />} />
-            <BottomNavigationAction label="Rankings" icon={<FormatListNumberedIcon />} />
-            <BottomNavigationAction label="Teams" icon={<PeopleIcon />} />
-          </BottomNavigation>
-        </MediaQuery>
+        {content}
       </div>
     );
   }

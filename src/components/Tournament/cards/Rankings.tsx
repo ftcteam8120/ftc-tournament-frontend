@@ -10,6 +10,9 @@ import { graphql, ChildProps } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Paper, Typography, CircularProgress } from 'material-ui';
 
+import EmptyState from '../../EmptyState';
+import ErrorState from '../../ErrorState';
+
 import { Event } from '../../../core/types';
 
 const styles = {
@@ -40,30 +43,41 @@ interface Props {
 class RankingsCard extends Component<ChildProps<Props, Response>> {
   render() {
     const { error, loading, event } = this.props.data;
+    let content;
+    let rankings;
+    if (event) rankings = event.rankings || [];
+    else rankings = [];
+    if (error) {
+      content = <ErrorState message="Error Loading Rankings" error={error} />;
+    } else if (!event || rankings.length === 0) {
+      content = <EmptyState message="No Rankings Found" />;
+    } else {
+      content = (
+        <List>
+          {rankings.map((ranking) => (
+            <ListItem key={ranking.rank + ranking.team.id} onClick={() => this.props.openTeam(ranking.team.number)} button>
+              <Avatar>
+                {ranking.rank}
+              </Avatar>
+              <Typography style={styles.number} variant="title">
+                {ranking.team.number}
+              </Typography>
+              <ListItemText
+                primary={ranking.team.name}
+                secondary={'RP: ' + ranking.ranking_points + ' QP: ' + ranking.qualifying_points + ' Highest: ' + ranking.highest}
+              />
+            </ListItem>
+          ))}
+        </List>
+      );
+    }
     return (
       <Paper>
         {loading ? (
           <div style={styles.progressContainer as any}>
             <CircularProgress style={styles.progress} size={64} />  
           </div>
-        ) : (
-          <List>
-            {event.rankings.map((ranking) => (
-              <ListItem key={ranking.rank + ranking.team.id} onClick={() => this.props.openTeam(ranking.team.number)} button>
-                <Avatar>
-                  {ranking.rank}
-                </Avatar>  
-                <Typography style={styles.number} variant="title">
-                  {ranking.team.number}
-                </Typography>
-                <ListItemText
-                  primary={ranking.team.name}
-                  secondary={'RP: ' + ranking.ranking_points + ' QP: ' + ranking.qualifying_points + ' Highest: ' + ranking.highest}
-                />
-              </ListItem>
-            ))}
-          </List>
-        )}
+        ) : content}
       </Paper>
     );
   }

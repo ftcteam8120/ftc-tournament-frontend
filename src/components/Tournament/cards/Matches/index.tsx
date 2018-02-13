@@ -11,6 +11,9 @@ import { CircularProgress } from 'material-ui';
 
 import { Event, Match } from '../../../../core/types';
 
+import EmptyState from '../../../EmptyState';
+import ErrorState from '../../../ErrorState';
+
 import LocationMap from '../../../LocationMap';
 import MatchItem from './MatchItem';
 
@@ -53,14 +56,29 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
 
   public render() {
     const { error, loading, event } = this.props.data;
-    let qualifying: Match[] = [];
-    let semifinal: Match[] = [];
-    let final: Match[] = [];
-    if (!loading) {
+    let matches: Match[] = [];
+    if (!loading && !error && event) {
       let groups = _.groupBy(event.matches, 'type');
-      qualifying = groups.QUALIFYING || [];
-      semifinal = groups.SEMIFINAL || [];
-      final = groups.FINAL || [];
+      matches = _.concat(groups.FINAL || [], groups.SEMIFINAL || [], groups.QUALIFYING || []);
+    }
+    let content;
+    if (error) {
+      content = <ErrorState message="Error Loading Matches" error={error}/>
+    } else if (matches.length === 0 && !loading) {
+      content = <EmptyState message="No Matches Found"/>
+    } else {
+      content = (
+        <div>
+          {matches.map((match, index) => (
+            <MatchItem
+              key={match.id}
+              match={match}
+              expanded={this.state.expanded === match.id}
+              onExpand={(e, v) => this.onExpand(match.id, v)}
+            />
+          ))}
+        </div>
+      );
     }
     return (
       <div style={{ width: '100%' }}>
@@ -68,34 +86,7 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
           <div style={styles.progressContainer as any}>
             <CircularProgress style={styles.progress} size={64} />  
           </div>
-        ) : (
-          <div>
-            {final.map((match, index) => (
-              <MatchItem
-                key={match.id}
-                match={match}
-                expanded={this.state.expanded === match.id}
-                onExpand={(e, v) => this.onExpand(match.id, v)}
-              />
-            ))}
-            {semifinal.map((match, index) => (
-              <MatchItem
-                key={match.id}
-                match={match}
-                expanded={this.state.expanded === match.id}
-                onExpand={(e, v) => this.onExpand(match.id, v)}
-              />
-            ))}
-            {qualifying.map((match, index) => (
-              <MatchItem
-                key={match.id}
-                match={match}
-                expanded={this.state.expanded === match.id}
-                onExpand={(e, v) => this.onExpand(match.id, v)}
-              />
-            ))}
-          </div>
-        )}
+        ) : content}
       </div>
     );
   }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="96px" viewBox="0 0 64 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="12" height="4"></rect>
+        <rect id="path-2" x="0" y="36" width="12" height="4"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard">
+            <g id="Group">
+                <rect id="Rectangle" stroke-opacity="0.54" stroke="#000000" stroke-width="4" x="2" y="2" width="60" height="92" rx="8"></rect>
+                <g id="Group-2" transform="translate(16.000000, 28.000000)">
+                    <g id="Rectangle-2">
+                        <use fill="#757575" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        <rect stroke="#757575" stroke-width="1" x="0.5" y="0.5" width="11" height="3"></rect>
+                    </g>
+                    <g id="Rectangle-2">
+                        <use fill="#757575" fill-rule="evenodd" xlink:href="#path-2"></use>
+                        <rect stroke="#757575" stroke-width="1" x="0.5" y="36.5" width="11" height="3"></rect>
+                    </g>
+                    <path d="M32.1226719,-7.10542736e-15 C26.7075573,6.5021364 24,13.0042728 24,19.5064092 C24,26.0085456 26.7075573,32.510682 32.1226719,39.0128184" id="Line" stroke="#757575" stroke-width="4" stroke-linecap="square"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

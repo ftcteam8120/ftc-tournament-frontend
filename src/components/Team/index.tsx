@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { push } from 'react-router-redux';
+import { Link } from 'react-router-dom';
 // Import the connector to connect React and Redux
 import { connect } from 'react-redux';
 import { bindActionCreators, Action } from 'redux';
@@ -14,6 +15,10 @@ import { Typography, AppBar, Toolbar, Avatar, MuiThemeProvider, Tab, Tabs, Botto
 import EventIcon from 'material-ui-icons/Event';
 import HomeIcon from 'material-ui-icons/Home';
 import GamepadIcon from 'material-ui-icons/Gamepad';
+import LinesEllipsis from 'react-lines-ellipsis';
+import responsiveHOC from 'react-lines-ellipsis/lib/responsiveHOC';
+
+const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
 
 import sizeMe from 'react-sizeme';
 import Waypoint from 'react-waypoint';
@@ -87,6 +92,10 @@ class Tournament extends Component<ChildProps<TeamProps, TeamResponse>, TeamStat
     this.setState({ collapsed: value });
   }
 
+  openLink(url: string) {
+    window.open(url, '_blank');
+  }
+
   public render() {
     const { error, loading, team } = this.props.data;
     const { collapsed } = this.state;
@@ -151,7 +160,7 @@ class Tournament extends Component<ChildProps<TeamProps, TeamResponse>, TeamStat
               titleComponent={titleComponent}
               elevation={2}
               style={{
-                height: mobile ? 56 : 112
+                height: 56
               }}
             >
               {!mobile && tabs}
@@ -180,21 +189,25 @@ class Tournament extends Component<ChildProps<TeamProps, TeamResponse>, TeamStat
                         <div style={{ marginLeft: mobile ? 0 : 32, marginTop: mobile ? 32 : 0 }}>
                           <Typography variant="display2" color="inherit">{team.number}</Typography>
                           <Typography variant="display1" color="inherit" style={{ marginTop: 8, marginBottom: 8 }}>{team.name}</Typography>
-                          <Typography variant="subheading" color="inherit">{team.affiliation}</Typography>
+                          <Typography variant="subheading" color="inherit">
+                            <ResponsiveEllipsis
+                              text={team.affiliation}
+                              maxLine={1}
+                              ellipsis="..."
+                              trimRight
+                              basedOn="letters"
+                            />
+                          </Typography>
                           <Typography variant="title" color="inherit">{(team.city + ' ' + team.state + ', ' + team.country)}</Typography>
                         </div>
                       </div>
-                      <br />
-                      <div style={{ marginLeft: mobile ? 0 : 190, textAlign: mobile ? 'center' : 'left' }}>
-                        <a href={team.website} style={{ color: 'white' }} target="_blank">
-                          <Typography variant="body2" color="inherit">
-                            {team.website}
-                          </Typography>
-                        </a>
-                        <a href={'https://twitter.com/' + team.twitter} style={{ color: 'white' }} target="_blank">
-                          <Typography variant="body2" color="inherit">
-                            {team.twitter && ('@' + team.twitter)}
-                          </Typography></a>
+                      <div style={{ marginLeft: mobile ? 0 : 190, textAlign: mobile ? 'center' : 'left', marginTop: 8 }}>
+                        <Typography variant="body2" color="inherit" style={{ cursor: 'pointer' }} onClick={() => this.openLink(team.website)}>
+                          {team.website}
+                        </Typography>
+                        <Typography variant="body2" color="inherit" style={{ cursor: 'pointer' }} onClick={() => this.openLink('https://www.twitter.com/' + team.twitter)}>
+                          {team.twitter && ('@' + team.twitter)}
+                        </Typography>
                       </div>
                     </div>
                   )}

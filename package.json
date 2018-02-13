@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node node_modules/rimraf/bin.js dist && node node_modules/webpack/bin/webpack.js --bail --progress --profile && npm run container-build",
+    "build": "node node_modules/rimraf/bin.js dist && node node_modules/webpack/bin/webpack.js --bail --progress --profile",
     "server": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --history-api-fallback --inline --progress --hot",
     "start": "npm run server",
     "container-build": "docker build -t ftc-tournament-frontend .",
@@ -60,6 +60,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "dependencies": {
+    "@types/react-router-dom": "^4.2.4",
     "add-graphql-subscriptions": "^1.0.1",
     "apollo-cache-inmemory": "^1.1.5",
     "apollo-cache-redux": "^0.1.0-alpha.7",
@@ -86,6 +87,7 @@
     "react-redux": "^5.0.6",
     "react-responsive": "^3.0.0",
     "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.8",
     "react-sizeme": "^2.3.6",
     "react-spinners": "^0.2.6",

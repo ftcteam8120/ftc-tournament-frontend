@@ -8,6 +8,9 @@ import { push } from 'react-router-redux';
 import gql from 'graphql-tag';
 import { Toolbar, Typography, Grid } from 'material-ui';
 
+import ErrorState from '../ErrorState';
+import EmptyState from '../EmptyState';
+
 import './index.less';
 
 const styles = {
@@ -33,21 +36,31 @@ class Tournaments extends Component<TournamentsProps, TournamentsState> {
 
   // The render function will render the component
   public render() {
-    let { errors, loading, events } = this.props.data;
-    if (loading) events = [];
+    let { error, loading, events } = this.props.data;
+    let content;
+    if (loading || !events) events = [];
+    if (error) {
+      content = <ErrorState message="Error Loading Events" error={error} />;
+    } else if (events.length === 0) {
+      content = <EmptyState message="No Events Found"/>
+    } else {
+      content = (
+        <Grid container spacing={16}>
+          {events.map((event) =>
+            <Grid item key={event.id} md={6} sm={6} xs={12} lg={4} xl={3}>
+              <TournamentItem
+                onClick={() => this.props.openEvent(event.code)}
+                event={event}
+              />
+            </Grid>
+          )}
+        </Grid>
+      );
+    }
     return (
       <div style={styles.view}>
         <TitleBar title="FTC Tournaments"/>
-        <Grid container spacing={16}>
-          {events.map((event) =>
-          <Grid item key={event.id} md={6} sm={6} xs={12} lg={4} xl={3}>  
-            <TournamentItem
-              onClick={() => this.props.openEvent(event.code)}
-              event={event}
-              />
-            </Grid>  
-          )}
-          </Grid>  
+        {content}
       </div>
     );
   }
