@@ -1,5 +1,19 @@
 import React, { Component } from 'react';
-import { Card, CardContent, CardActions, Button, Typography, MuiThemeProvider, Avatar } from 'material-ui';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import { RootState, actions } from '../../../../core';
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Typography,
+  MuiThemeProvider,
+  Avatar,
+  IconButton
+} from 'material-ui';
+import GamepadIcon from 'material-ui-icons/Gamepad';
+import EventIcon from 'material-ui-icons/Event';
 import LinesEllipsis from 'react-lines-ellipsis';
 import responsiveHOC from 'react-lines-ellipsis/lib/responsiveHOC';
 
@@ -11,7 +25,6 @@ import { getTeamTheme } from '../../../../utils/teamThemes';
 
 const styles = {
   root: {
-    height: 200,
     minWidth: 250,
     cursor: 'pointer'
   }
@@ -19,10 +32,10 @@ const styles = {
 
 interface Props {
   team: Team;
-  onClick?: () => void;
+  goToPage: (number: number, page?: string) => void;
 }
 
-export default class TeamItem extends Component<Props> {
+class TeamItem extends Component<Props> {
   render() {
     const { team } = this.props;
     let theme;
@@ -33,13 +46,13 @@ export default class TeamItem extends Component<Props> {
     }
     return (
       <MuiThemeProvider theme={theme}>
-        <Card style={styles.root} onClick={this.props.onClick}>
+        <Card style={styles.root}>
           <div style={{ backgroundColor: theme.palette.primary.main, paddingLeft: 16, paddingTop: 8, paddingBottom: 8 }}>
             <Typography variant="headline" style={{ color: theme.palette.primary.contrastText }}>
               {team.number}
             </Typography>
           </div>
-          <CardContent style={{ display: 'flex', alignItems: 'center' }}>
+          <CardContent style={{ display: 'flex', alignItems: 'center' }} onClick={() => this.props.goToPage(team.number)}>
             <Avatar
               style={{
                 height: 64,
@@ -72,8 +85,36 @@ export default class TeamItem extends Component<Props> {
               <Typography variant="body1">{team.city}, {team.state} {team.country}</Typography>
             </div>
           </CardContent>
+          <CardActions>
+            <Button color="primary" size="small" onClick={() => this.props.goToPage(team.number)}>
+              View Team  
+            </Button>
+            <span style={{ marginLeft: 'auto' }} />
+            <IconButton onClick={() => this.props.goToPage(team.number, 'events')}>
+              <EventIcon/>
+            </IconButton>
+            <IconButton onClick={() => this.props.goToPage(team.number, 'matches')}>
+              <GamepadIcon/>
+            </IconButton>
+          </CardActions>
         </Card>
       </MuiThemeProvider>
     );
   }
 }
+
+const mapStateToProps = (state: RootState) => ({
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    goToPage: (number: number, page?: string) => {
+      dispatch(push('/team/'+ number + (page ? ('/' + page) : '')));
+    }
+  };  
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TeamItem);

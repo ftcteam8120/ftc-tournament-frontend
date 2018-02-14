@@ -4,10 +4,26 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Action } from 'redux';
 import { RootState, actions } from '../../core';
 import { AuthError } from '../../core/actions/auth';
+import { Paper, Button, TextField, Typography, AppBar, Toolbar, IconButton } from 'material-ui';
+import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
+import { FormControl, FormHelperText, } from 'material-ui/Form';
+import Visibility from 'material-ui-icons/Visibility';
+import VisibilityOff from 'material-ui-icons/VisibilityOff';
 
-import './index.less';
-
-import { Input, Button } from '../form';
+const styles = {
+  formControl: {
+    width: 'calc(100% - 32px)',
+    marginLeft: 16,
+    marginRight: 16,
+    marginTop: 16
+  },
+  button: {
+    marginLeft: 32,
+    marginRight: 32,
+    marginTop: 32,
+    width: 'calc(100% - 64px)'
+  }
+};
 
 interface LoginProps {
   authenticated: boolean;
@@ -19,6 +35,7 @@ interface LoginProps {
 interface LoginState {
   username: string;
   password: string;
+  showPassword: boolean;
 }
 
 class Login extends Component<LoginProps, LoginState> {
@@ -29,7 +46,8 @@ class Login extends Component<LoginProps, LoginState> {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      showPassword: false
     };
   }
 
@@ -53,10 +71,15 @@ class Login extends Component<LoginProps, LoginState> {
     this.backgroundImage = this.getRandomImage();
   }
 
-  private updateValue(target: string, value: any): void {
+  updateValue(target: string, value: any): void {
     this.setState({
       [target]: value
     } as any);
+  }
+
+  login(e) {
+    e.preventDefault();
+    this.props.login(this.state.username, this.state.password);
   }
 
   public render() {
@@ -66,62 +89,53 @@ class Login extends Component<LoginProps, LoginState> {
       return <Redirect to="/"/>
     } else {
       return (
-        <div className="login" style={{ backgroundImage: this.backgroundImage }}>
-          <div className="login-container">
-            <div className="logo-container">
-              <div className="logo-container-inner">
-                <img src="/img/logo_white.svg" />
-                <h3>FTC Tournament Login</h3>
+        <div style={{ backgroundImage: this.backgroundImage, display: 'flex', height: '100%', width: '100%', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
+          <Paper style={{ marginTop: 64, marginLeft: 'auto', marginRight: 'auto', maxWidth: 300, height: 530, position: 'relative' }}>
+            <AppBar position="static">
+              <Toolbar style={{ display: 'flex', width: '100%', padding: 0, height: 96 }}>
+                <img src="/img/logo_white.svg" style={{ marginLeft: 'auto', marginRight: 'auto' }} />
+              </Toolbar>
+            </AppBar>
+            <div style={{ display: 'flex' }}>
+              <div style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 16 }}>
+                <Typography variant="display1" color="inherit" style={{ textAlign: 'center' }}>
+                  FTC Tournament Login
+                </Typography>
+                <form style={{ width: '100%' }} onSubmit={(e) => this.login(e)}>
+                  <FormControl aria-describedby="username-error-text" style={styles.formControl}>
+                    <InputLabel htmlFor="username">Username</InputLabel>
+                    <Input id="username" value={this.state.username} onChange={(e) => this.updateValue('username', e.target.value)} />
+                  </FormControl>
+                  <FormControl style={styles.formControl}>
+                    <InputLabel htmlFor="password">Password</InputLabel>
+                    <Input
+                      id="adornment-password"
+                      type={this.state.showPassword ? 'text' : 'password'}
+                      value={this.state.password}
+                      onChange={(e) => this.updateValue('password', e.target.value)}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={(e) => { this.setState({ showPassword: !this.state.showPassword }) }}
+                            onMouseDown={(e) => e.preventDefault()}
+                          >
+                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                  <Button variant="raised" color="primary" type="submit" style={styles.button}>
+                    Login
+                  </Button>
+                  <Button variant="raised" color="primary" type="submit" style={styles.button}>
+                    Signup
+                  </Button>
+                </form>
               </div>
             </div>
-            <form className="login-form" onSubmit={() => { this.props.login(this.state.username, this.state.password) }}>  
-              <div className="login-section">
-                <div className="login-section-title">
-                  <h5>{
-                    this.props.authError ?
-                      <div className="authError">{this.getAuthError(this.props.authError)}</div> :
-                      'Username & Password'
-                  }</h5>
-                </div>
-                <Input
-                  value={this.state.username}
-                  onChange={(v) => this.updateValue("username", v)}
-                  placeholder="Username"
-                  className="login-form-element"
-                />
-                <Input
-                  value={this.state.password}
-                  type="password"
-                  onChange={(v) => this.updateValue("password", v)}
-                  placeholder="Password"
-                  className="login-form-element"
-                />
-                <Button
-                  onClick={() => { this.props.login(this.state.username, this.state.password) }}
-                  label="Login"
-                  color="blue"
-                  className="login-form-element"
-                />
-              </div>
-              <div className="login-section">
-                <div className="login-section-title">
-                  <h5>Social Media</h5>
-                </div>
-                <Button
-                  onClick={() => {  }}
-                  label="Login with Twitter"
-                  color="twitter-blue"
-                  className="login-form-element"
-                />
-                <Button
-                  onClick={() => {  }}
-                  label="Login with Google"
-                  color="google-red"
-                  className="login-form-element"
-                />
-              </div>
-            </form>
-          </div>
+            <Typography style={{ textAlign: 'center', width: '100%', position: 'absolute', bottom: 16 }} variant="caption">Created by FTC Team 8120, The Electric Hornets</Typography>
+          </Paper>
         </div>
       );
     }

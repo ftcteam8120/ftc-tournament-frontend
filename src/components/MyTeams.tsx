@@ -23,7 +23,6 @@ import TeamItem from './Tournament/cards/Teams/TeamItem';
 
 // Define the property types
 interface Props {
-  openTeam: (number: number) => void;
   user: User;
 }
 
@@ -45,7 +44,7 @@ class MyTeams extends Component<ChildProps<Props, Response>> {
             <Grid container spacing={16}>
               {user.teams.map((team) => (
                 <Grid item key={team.id} xs={12} sm={6} md={4} lg={3} xl={2}>
-                  <TeamItem team={team} onClick={() => this.props.openTeam(team.number)} />
+                  <TeamItem team={team} />
                 </Grid>
               ))}
             </Grid>
@@ -62,9 +61,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openTeam: (number: number) => {
-      dispatch(push('/team/'+ number));
-    }
+    
   };  
 };
 

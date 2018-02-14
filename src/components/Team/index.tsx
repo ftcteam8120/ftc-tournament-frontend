@@ -223,21 +223,23 @@ class Tournament extends Component<ChildProps<TeamProps, TeamResponse>, TeamStat
           <Route exact path={this.props.match.path + '/matches'} component={TeamMatches} />
         </div>
         <MediaQuery query="(max-width: 800px)">
-          <BottomNavigation
-            value={this.getCurrentTab()}
-            onChange={(e, v) => this.handleChange(e, v)}
-            showLabels
-            style={{
-              position: 'fixed',
-              bottom: 0,
-              left: 0,
-              width: '100%'
-            }}
-          >
-            <BottomNavigationAction label="Team" icon={<HomeIcon />} />
-            <BottomNavigationAction label="Events" icon={<EventIcon />} />
-            <BottomNavigationAction label="Matches" icon={<GamepadIcon />} />
-          </BottomNavigation>
+          <MuiThemeProvider theme={theme}>
+            <BottomNavigation
+              value={this.getCurrentTab()}
+              onChange={(e, v) => this.handleChange(e, v)}
+              showLabels
+              style={{
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                width: '100%'
+              }}
+            >
+              <BottomNavigationAction label="Team" icon={<HomeIcon />} />
+              <BottomNavigationAction label="Events" icon={<EventIcon />} />
+              <BottomNavigationAction label="Matches" icon={<GamepadIcon />} />
+            </BottomNavigation>
+          </MuiThemeProvider>
         </MediaQuery>
       </div>
     );

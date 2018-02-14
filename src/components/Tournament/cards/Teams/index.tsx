@@ -11,24 +11,14 @@ import { CircularProgress, Grid } from 'material-ui';
 
 import EmptyState from '../../../EmptyState';
 import ErrorState from '../../../ErrorState';
+import Loading from '../../../Loading';
 
 import { Event, Match } from '../../../../core/types';
-
-const styles = {
-  progressContainer: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  progress: {
-    marginTop: 120
-  }
-};
 
 import TeamItem from './TeamItem';
 
 interface Props {
   eventCode: string;
-  openTeam: (number: number) => void;
 }
 
 interface Response {
@@ -49,7 +39,7 @@ class TeamsCard extends Component<ChildProps<Props, Response>> {
         <Grid container spacing={16}>
           {event.teams.map((team) => (
             <Grid item key={team.id} xs={12} sm={6} md={6} lg={4} xl={3}>
-              <TeamItem team={team} onClick={() => this.props.openTeam(team.number)} />
+              <TeamItem team={team} />
             </Grid>
           ))}
         </Grid>
@@ -58,9 +48,7 @@ class TeamsCard extends Component<ChildProps<Props, Response>> {
     return (
       <div style={{ width: '100%' }}>
         {loading ? (
-          <div style={styles.progressContainer as any}>
-            <CircularProgress style={styles.progress} size={64} />  
-          </div>
+          <Loading/>
         ) : content}
       </div>
     );
@@ -73,9 +61,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openTeam: (number: number) => {
-      dispatch(push('/team/'+number));
-    }
+    
   };  
 };
 

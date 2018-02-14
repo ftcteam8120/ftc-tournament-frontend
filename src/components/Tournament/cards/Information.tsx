@@ -9,6 +9,7 @@ import gql from 'graphql-tag';
 import { Card, CardContent, Typography, IconButton, CardMedia, CircularProgress, Grid } from 'material-ui';
 
 import { Event } from '../../../core/types';
+import Loading from '../../Loading';
 
 const styles = {
   card: {
@@ -19,13 +20,6 @@ const styles = {
     backgroundSize: 'contain',
     width: 300,
     margin: 16
-  },
-  progressContainer: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  progress: {
-    marginTop: 120
   }
 };
 
@@ -61,9 +55,7 @@ class InformationCard extends Component<ChildProps<Props, Response>> {
     return (
       <Card style={{ height: 300 }}>
         {loading ? (
-          <div style={styles.progressContainer as any}>
-            <CircularProgress style={styles.progress} size={64} />  
-          </div>
+          <Loading/>
         ) : (
           <div style={styles.card}>
             <MediaQuery query="(min-width: 600px)">

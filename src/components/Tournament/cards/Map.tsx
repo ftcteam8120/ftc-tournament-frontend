@@ -11,17 +11,11 @@ import { Card, CardContent, Typography, IconButton, CardMedia, CircularProgress 
 import { Event } from '../../../core/types';
 
 import LocationMap from '../../LocationMap';
+import Loading from '../../Loading';
 
 const styles = {
   root: {
     maxHeight: 300
-  },
-  progressContainer: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  progress: {
-    marginTop: 120
   }
 };
 
@@ -54,9 +48,7 @@ class MapCard extends Component<ChildProps<Props, Response>> {
     return (
       <Card  style={{ height: 300 }}>
         {loading ? (
-          <div style={styles.progressContainer as any}>
-            <CircularProgress style={styles.progress} size={64} />  
-          </div>
+          <Loading/>
         ) : map}
       </Card>
     );

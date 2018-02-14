@@ -12,6 +12,7 @@ import { Paper, Typography, CircularProgress } from 'material-ui';
 
 import EmptyState from '../../EmptyState';
 import ErrorState from '../../ErrorState';
+import Loading from '../../Loading';
 
 import { Event } from '../../../core/types';
 
@@ -20,14 +21,6 @@ const styles = {
     marginLeft: 8,
     width: 70,
     textAlign: 'center'
-  },
-  progressContainer: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  progress: {
-    marginTop: 120,
-    marginBottom: 120
   }
 };
 
@@ -74,9 +67,7 @@ class RankingsCard extends Component<ChildProps<Props, Response>> {
     return (
       <Paper>
         {loading ? (
-          <div style={styles.progressContainer as any}>
-            <CircularProgress style={styles.progress} size={64} />  
-          </div>
+          <Loading/>
         ) : content}
       </Paper>
     );

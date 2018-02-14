@@ -23,7 +23,6 @@ import TournamentItem from './Tournaments/TournamentItem';
 
 // Define the property types
 interface Props {
-  openEvent: (code: string) => void;
   user: User;
 }
 
@@ -46,7 +45,6 @@ class MyEvents extends Component<ChildProps<Props, Response>> {
               {user.events.map((event) =>
                 <Grid item key={event.id} md={6} sm={6} xs={12} lg={4} xl={3}>
                   <TournamentItem
-                    onClick={() => this.props.openEvent(event.code)}
                     event={event}
                   />
                 </Grid>
@@ -65,9 +63,6 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openEvent: (code: string) => {
-      dispatch(push('/event/'+ code));
-    }
   };  
 };
 

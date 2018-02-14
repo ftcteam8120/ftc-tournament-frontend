@@ -8,17 +8,8 @@ import { graphql, ChildProps } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Card, CardContent, Typography, IconButton, CardMedia, CircularProgress, Grid } from 'material-ui';
 
+import Loading from '../../Loading';
 import { Team } from '../../../core/types';
-
-const styles = {
-  progressContainer: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  progress: {
-    marginTop: 120
-  }
-};
 
 interface Props {
   teamNumber: string;
@@ -36,9 +27,7 @@ class BiographyCard extends Component<ChildProps<Props, Response>> {
     return (
       <Card style={{ minHeight: 200 }}>
         {loading ? (
-          <div style={styles.progressContainer as any}>
-            <CircularProgress style={styles.progress} size={64} />  
-          </div>
+          <Loading/>
         ) : (
           <div>
             <CardContent>

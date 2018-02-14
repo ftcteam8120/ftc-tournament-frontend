@@ -19,6 +19,8 @@ import Tournament from './Tournament';
 import Team from './Team';
 import MyEvents from './MyEvents';
 import MyTeams from './MyTeams';
+import Home from './Home';
+import Teams from './Teams';
 
 /*
  The primary root element of the app
@@ -41,6 +43,8 @@ export function Root({ store, client, history, theme }) {
                 <Route exact path="/login" component={Login} />  
                 {/* All app paths that require authentication go inside the app component */}
                 <App>
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/teams" component={Teams}/>
                   <Route exact path="/events" component={Tournaments}/>
                   <Route path="/event/:event_code" component={Tournament} />
                   <Route path="/team/:id" component={Team} />

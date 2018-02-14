@@ -13,16 +13,7 @@ import { CircularProgress, Grid } from 'material-ui';
 import { Team, Match } from '../../../core/types';
 
 import TournamentItem from '../../Tournaments/TournamentItem';
-
-const styles = {
-  progressContainer: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  progress: {
-    marginTop: 120
-  }
-};
+import Loading from '../../Loading';
 
 interface Props {
   match: {
@@ -30,7 +21,6 @@ interface Props {
       id: string;
     }
   }
-  openEvent: (code: string) => void;
 }
 
 interface Response {
@@ -48,15 +38,12 @@ class TeamTournaments extends Component<ChildProps<Props, Response>> {
     return (
       <div style={{ marginLeft: 16, marginRight: 16 }}>
         {loading ? (
-          <div style={styles.progressContainer as any}>
-            <CircularProgress style={styles.progress} size={64} />
-          </div>
+          <Loading/>
         ) : (
             <Grid container spacing={16}>
               {team.events.map((event) =>
                 <Grid item key={event.id} md={6} sm={6} xs={12} lg={4} xl={3}>
                   <TournamentItem
-                    onClick={() => this.props.openEvent(event.code)}
                     event={event}
                   />
                 </Grid>
@@ -75,9 +62,6 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openEvent: (code: string) => {
-      dispatch(push('/event/'+ code));
-    }
   };  
 };
 

@@ -6,12 +6,10 @@ import { RootState, actions } from '../../core';
 import { graphql } from 'react-apollo';
 import { push } from 'react-router-redux';
 import gql from 'graphql-tag';
-import { Toolbar, Typography, Grid } from 'material-ui';
+import { Toolbar, Typography, Grid, CircularProgress } from 'material-ui';
 
 import ErrorState from '../ErrorState';
 import EmptyState from '../EmptyState';
-
-import './index.less';
 
 const styles = {
   view: {
@@ -23,11 +21,11 @@ const styles = {
 
 import TitleBar from '../TitleBar';
 import TournamentItem from './TournamentItem';
+import Loading from '../Loading';
 
 // Define the property types
 interface TournamentsProps {
   data: any;
-  openEvent: (code: string) => void;
 }
 
 interface TournamentsState {}
@@ -47,9 +45,8 @@ class Tournaments extends Component<TournamentsProps, TournamentsState> {
       content = (
         <Grid container spacing={16}>
           {events.map((event) =>
-            <Grid item key={event.id} md={6} sm={6} xs={12} lg={4} xl={3}>
+            <Grid item key={event.id} md={6} sm={12} xs={12} lg={4} xl={3}>
               <TournamentItem
-                onClick={() => this.props.openEvent(event.code)}
                 event={event}
               />
             </Grid>
@@ -60,7 +57,9 @@ class Tournaments extends Component<TournamentsProps, TournamentsState> {
     return (
       <div style={styles.view}>
         <TitleBar title="FTC Tournaments"/>
-        {content}
+        {loading ? (
+          <Loading/>
+        ) : content}
       </div>
     );
   }
@@ -72,9 +71,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openEvent: (code: string) => {
-      dispatch(push('/event/'+ code));
-    }
+    
   };  
 };
 

@@ -12,16 +12,7 @@ import { CircularProgress } from 'material-ui';
 import { Team, Match } from '../../../core/types';
 
 import MatchItem from '../../Tournament/cards/Matches/MatchItem';
-
-const styles = {
-  progressContainer: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  progress: {
-    marginTop: 120
-  }
-};
+import Loading from '../../Loading';
 
 interface Props {
   match: {
@@ -64,9 +55,7 @@ class TeamMatches extends Component<ChildProps<Props, Response>, State> {
     return (
       <div style={{ marginLeft: 16, marginRight: 16 }}>
         {loading ? (
-          <div style={styles.progressContainer as any}>
-            <CircularProgress style={styles.progress} size={64} />  
-          </div>
+          <Loading/>
         ) : (
           <div>
             {Object.keys(matchGroups).map((key, index) => {

@@ -115,17 +115,17 @@ class AppDrawer extends Component<AppDrawerProps, AppDrawerState> {
           <div>
             <Divider />
             <List>
-              <ListItem button>
+              <ListItem button onClick={() => this.props.openLink('/myteams')}>
                 <ListItemIcon>
                   <PeopleIcon />
                 </ListItemIcon>
-                <ListItemText onClick={() => this.props.openLink('/myteams')} primary="My Teams" />
+                <ListItemText primary="My Teams" />
               </ListItem>
-              <ListItem button>
+              <ListItem button onClick={() => this.props.openLink('/myevents')}>
                 <ListItemIcon>
                   <EventIcon />
                 </ListItemIcon>
-                <ListItemText onClick={() => this.props.openLink('/myevents')} primary="My Events" />
+                <ListItemText primary="My Events" />
               </ListItem>
             </List>
           </div>
@@ -209,6 +209,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     openLink: (url: string) => {
       dispatch(push(url));
+      dispatch(closeDrawer());
     }
   };  
 };

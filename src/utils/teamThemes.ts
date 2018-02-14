@@ -27,7 +27,7 @@ export function getTeamTheme(primary: string, secondary: string) {
   } else {
     return createMuiTheme({
       palette: {
-        primary: colors.grey,
+        primary: colors.blueGrey,
         secondary: colors.blue
       }
     });

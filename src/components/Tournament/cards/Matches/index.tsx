@@ -16,16 +16,7 @@ import ErrorState from '../../../ErrorState';
 
 import LocationMap from '../../../LocationMap';
 import MatchItem from './MatchItem';
-
-const styles = {
-  progressContainer: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  progress: {
-    marginTop: 120
-  }
-};
+import Loading from '../../../Loading';
 
 interface Props {
   eventCode: string;
@@ -83,9 +74,7 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
     return (
       <div style={{ width: '100%' }}>
         {loading ? (
-          <div style={styles.progressContainer as any}>
-            <CircularProgress style={styles.progress} size={64} />  
-          </div>
+          <Loading/>
         ) : content}
       </div>
     );
