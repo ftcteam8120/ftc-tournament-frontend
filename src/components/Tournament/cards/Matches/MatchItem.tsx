@@ -94,7 +94,12 @@ class MatchItem extends Component<MatchItemProps> {
             <div style={{ ...styles.team, textAlign: expanded || size.width > 700 ? 'left' : 'center' }}>
               {match.red_alliance.teams.map((team) => (
                 <div key={team.id}>
-                  <Typography variant="body2"><b>{team.number}</b> &nbsp; {expanded || size.width > 700 ? team.name : null}</Typography>
+                  <Typography variant="body2"><b style={{ color: theme.palette.secondary.main }}>{team.number}</b> &nbsp; {expanded || size.width > 700 ? team.name : null}</Typography>
+                </div>
+              ))}
+              {match.red_alliance.surrogates.map((team) => (
+                <div key={team.id}>
+                  <Typography variant="body2"><b>{team.number}*</b> &nbsp; {expanded || size.width > 700 ? team.name : null}</Typography>
                 </div>
               ))}
             </div>
@@ -104,7 +109,12 @@ class MatchItem extends Component<MatchItemProps> {
             <div style={{ ...styles.team, textAlign: expanded || size.width > 700 ? 'left' : 'center' }}>
               {match.blue_alliance.teams.map((team) => (
                 <div key={team.id}>
-                  <Typography variant="body2"><b>{team.number}</b> &nbsp; {expanded || size.width > 700 ? team.name : null}</Typography>
+                  <Typography variant="body2"><b style={{ color: theme.palette.primary.main }}>{team.number}</b> &nbsp; {expanded || size.width > 700 ? team.name : null}</Typography>
+                </div>
+              ))}
+              {match.blue_alliance.surrogates.map((team) => (
+                <div key={team.id}>
+                  <Typography variant="body2"><b>{team.number}*</b> &nbsp; {expanded || size.width > 700 ? team.name : null}</Typography>
                 </div>
               ))}
             </div>

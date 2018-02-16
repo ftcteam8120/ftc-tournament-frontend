@@ -20,6 +20,7 @@ import Loading from '../../../Loading';
 
 interface Props {
   eventCode: string;
+  subscribeToMatchUpdates?: ({ eventId: string }) => void;
 }
 
 interface State {
@@ -37,6 +38,12 @@ class MatchesCard extends Component<ChildProps<Props, Response>, State> {
     this.state = {
       expanded: null
     };
+  }
+
+  componentWillMount() {
+    this.props.subscribeToMatchUpdates({
+      eventId: this.props.eventCode
+    });
   }
 
   onExpand(panel, expanded) {
@@ -99,6 +106,11 @@ export default graphql <Response, Props>(gql`
           tele
           end
           penalty
+          surrogates {
+            id
+            name
+            number
+          }
           teams {
             id
             name
@@ -112,6 +124,11 @@ export default graphql <Response, Props>(gql`
           tele
           end
           penalty
+          surrogates {
+            id
+            name
+            number
+          }
           teams {
             id
             name
@@ -126,5 +143,81 @@ export default graphql <Response, Props>(gql`
     variables: {
       code: props.eventCode
     }
-  })
+    }),
+    props: props => {
+      return {
+        ...props,
+        subscribeToMatchUpdates: params => {
+          return props.data.subscribeToMore({
+            document: gql`
+              subscription SubscribeToMatchUpdates($event: String!) {
+                matchesUpdated(event: $event, orderBy: { number: DESC, sub: DESC }) {
+                  id
+                  winner
+                  type
+                  number
+                  sub
+                  red_alliance {
+                    total
+                    auto
+                    auto_b
+                    tele
+                    end
+                    penalty
+                    surrogates {
+                      id
+                      name
+                      number
+                    }
+                    teams {
+                      id
+                      name
+                      number
+                    }
+                  }
+                  blue_alliance {
+                    total
+                    auto
+                    auto_b
+                    tele
+                    end
+                    penalty
+                    surrogates {
+                      id
+                      name
+                      number
+                    }
+                    teams {
+                      id
+                      name
+                      number
+                    }
+                  }
+                }
+              }
+            `,
+            variables: {
+              event: params.eventId,
+            },
+            updateQuery: (prev: any, { subscriptionData }: { subscriptionData: any }) => {
+              let matches = prev.event.matches;
+              if (subscriptionData.data) {
+                if (subscriptionData.data.matchesUpdated) {
+                  if (subscriptionData.data.matchesUpdated[0].number !== null) {
+                    matches = subscriptionData.data.matchesUpdated;
+                    console.log('Recieved data', new Date(Date.now()).toISOString());
+                  }
+                }
+              }            
+              return {
+                event: {
+                  ...prev.event,
+                  matches: matches || []
+                }
+              };
+            }
+          });
+        }
+      };
+  }  
 })(MatchesCard);

@@ -143,7 +143,7 @@ class Tournament extends Component<ChildProps<TeamProps, TeamResponse>, TeamStat
           centered
           style={{
             marginTop: 'auto',
-            width: '100%'
+            width: collapsed ? 'calc(100% - 250px)' : '100%'
           }}
         >
           <Tab label="TEAM" />
@@ -160,7 +160,7 @@ class Tournament extends Component<ChildProps<TeamProps, TeamResponse>, TeamStat
               titleComponent={titleComponent}
               elevation={2}
               style={{
-                height: 56
+                height: mobile ? 56 : 112
               }}
             >
               {!mobile && tabs}

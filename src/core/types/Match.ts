@@ -22,6 +22,7 @@ export class Alliance {
   end?: number;
   penalty?: number;
   teams?: Team[];
+  surrogates?: Team[];
 }
 
 export class Match extends Node {

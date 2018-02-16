@@ -97,6 +97,11 @@ export default graphql <Response, Props>(gql`
           tele
           end
           penalty
+          surrogates {
+            id
+            name
+            number
+          }
           teams {
             id
             name
@@ -110,6 +115,11 @@ export default graphql <Response, Props>(gql`
           tele
           end
           penalty
+          surrogates {
+            id
+            name
+            number
+          }
           teams {
             id
             name

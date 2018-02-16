@@ -55,7 +55,6 @@ class AdminTools extends Component<ChildProps<Props, Response>, State> {
     if (props.event.location) {
       address = props.event.location.address;
     }
-    console.log(props.event.start);
     this.state = {
       name: props.event.name,
       description: props.event.description,

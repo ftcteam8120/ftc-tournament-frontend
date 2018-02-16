@@ -51,7 +51,6 @@ class MyEvents extends Component<ChildProps<Props, Response>> {
               )}
             </Grid>
           )}
-        
       </div>
     );
   }

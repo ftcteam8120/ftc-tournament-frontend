@@ -30,10 +30,18 @@ interface Response {
 
 interface Props {
   eventCode: string;
+  subscribeToRankingUpdates?: ({ eventId: string }) => void;
   openTeam: (number: number) => void;
 }
 
 class RankingsCard extends Component<ChildProps<Props, Response>> {
+  
+  componentWillMount() {
+    this.props.subscribeToRankingUpdates({
+      eventId: this.props.eventCode
+    });
+  }
+
   render() {
     const { error, loading, event } = this.props.data;
     let content;
@@ -88,27 +96,71 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(graphql<Response, Props>(gql`
-  query RankingsCardQuery($code: String) {
-    event(code: $code) {
-      id
-      rankings {
-        rank
-        ranking_points
-        qualifying_points
-        highest
-        team {
-          id
-          name
-          number
-        }
+)(graphql <Response, Props>(gql`
+query RankingsCardQuery($code: String) {
+  event(code: $code) {
+    id
+    rankings {
+      rank
+      ranking_points
+      qualifying_points
+      highest
+      team {
+        id
+        name
+        number
       }
     }
   }
+}
 `, {
-  options: (props: Props) => ({
-    variables: {
-      code: props.eventCode
-    }
-  })
+options: (props: Props) => ({
+  variables: {
+    code: props.eventCode
+  }
+}),
+    props: props => {
+      return {
+        ...props,
+        subscribeToRankingUpdates: params => {
+          return props.data.subscribeToMore({
+            document: gql`
+              subscription SubscribeToRankingUpdates($event: String!) {
+                rankingsUpdated(event: $event) {
+                  rank
+                  ranking_points
+                  qualifying_points
+                  highest
+                  team {
+                    id
+                    name
+                    number
+                  }
+                }
+              }
+            `,
+            variables: {
+              event: params.eventId,
+            },
+            updateQuery: (prev: any, { subscriptionData }: { subscriptionData: any }) => {
+              let rankings = prev.event.rankings;
+              if (subscriptionData.data) {
+                if (subscriptionData.data.rankingsUpdated) {
+                  if (subscriptionData.data.rankingsUpdated[0].number !== null) {
+                    rankings = subscriptionData.data.rankingsUpdated;
+                    console.log('Recieved data', new Date(Date.now()).toISOString());
+                  }
+                }
+              }
+              return {
+                event: {
+                  ...prev.event,
+                  rankings: rankings || []
+                }
+              };
+            }
+          });
+        }
+      };
+  }  
 })(RankingsCard));
