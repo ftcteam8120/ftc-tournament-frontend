@@ -65,7 +65,7 @@ class RankingsCard extends Component<ChildProps<Props, Response>> {
               </Typography>
               <ListItemText
                 primary={ranking.team.name}
-                secondary={'RP: ' + ranking.ranking_points + ' QP: ' + ranking.qualifying_points + ' Highest: ' + ranking.highest}
+                secondary={'RP: ' + ranking.ranking_points + ' QP: ' + ranking.qualifying_points}
               />
             </ListItem>
           ))}

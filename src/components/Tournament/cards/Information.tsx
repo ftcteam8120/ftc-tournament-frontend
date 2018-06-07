@@ -53,7 +53,7 @@ class InformationCard extends Component<ChildProps<Props, Response>> {
       }
     }
     return (
-      <Card style={{ height: 300 }}>
+      <Card style={{ height: 400 }}>
         {loading ? (
           <Loading/>
         ) : (

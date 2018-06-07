@@ -57,7 +57,7 @@ class MatchItem extends Component<MatchItemProps> {
         return theme.palette.grey.A200;
       }
       default: {
-        return 'white';
+        return theme.palette.grey.A200;
       }  
     }
   }
@@ -89,6 +89,7 @@ class MatchItem extends Component<MatchItemProps> {
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <div style={{ ...styles.num as any, backgroundColor: this.getColor(match.winner), height: expanded ? 88 - 16 : 72 - 16 }}>
             <Typography variant="title" style={{ ...styles.numText, marginTop: expanded ? 22 : 14 }}>{num}</Typography>
+            {size.width < 700 && <Typography variant="caption" style={{ color: 'white', width: '100%', textAlign: 'center', marginTop: 2 }}>{match.blue_alliance.total}-{match.red_alliance.total}</Typography>}
           </div>
           <div style={styles.teams}>
             <div style={{ ...styles.team, textAlign: expanded || size.width > 700 ? 'left' : 'center' }}>
